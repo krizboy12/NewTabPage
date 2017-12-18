@@ -2,5 +2,5 @@
 
 ## Todo:
 - [ ] Add functionality to update the background image through the webpage
-- [ ] Add "delete label" functionality (backend)
-- [ ] Add "update label" functionality (backend)
+- [x] Add "delete label" functionality (backend)
+- [x] Add "update label" functionality (backend)
