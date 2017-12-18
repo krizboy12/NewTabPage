@@ -10,7 +10,7 @@
         <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
             body {
-                background-image: url('background.jpg');
+                background-image: url('../images/background.jpg');
             }
 
             #search-display {
@@ -59,7 +59,7 @@
                     entry += "</span></div>";
                     $("#search-display").append(entry);
                     entry = "<div class='entry'><span>";
-                    $("#search-display:nth-child(" + (n + 1) + ")").
+                    //$("#search-display:nth-child(" + (n + 1) + ")");
                 }
             }
 
@@ -69,6 +69,7 @@
 
             $(document).ready(function(){
                 $("#tags").hide();
+                /*
                 var linkTags = [
                     "c++ reference",
                     "/r/mechanicalkeyboards",
@@ -88,6 +89,9 @@
                     "stackoverflow",
                     "linkedin"
                 ];
+                */
+                var table = getList();
+                console.log(table);
                 var ac_results = [];
                 $("#tags").autocomplete({
                         source: linkTags,
