@@ -18,14 +18,16 @@ function logAJAX(status, data) {
  * @function getList
  * @returns {array} 2D array: [index]["label"|"link"]
 */
-function getList() {	
+function getList() {
 	$.ajax({
 		url: "getList.php",
 		type: "GET",
 		success: function(data, status) {
 			var data = trimJSON(data);
 			logAJAX(status, data[0]);
-			return $.parseJSON(data[1]);
+			var json = $.parseJSON(data[1]);
+			
+			splitTable(json);
 		},
 		error: function(data, status) { logAJAX(status, data); }
 	})

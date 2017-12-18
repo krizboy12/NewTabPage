@@ -10,7 +10,7 @@
         <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
             body {
-                background-image: url('../images/background.jpg');
+                background-image: url('images/background.jpg');
             }
 
             #search-display {
@@ -51,52 +51,40 @@
         </div>
 
         <script>
+            var labels = [];
+            var links = [];
+
+            var splitTable = function(database_table) {
+                $.each(database_table, function(key, value) {
+                    labels.push(value.label);
+                    links.push(value.link);
+                });
+            }
+
             var updateSearchDisplay = function(ac_results) {
                 $("#search-display").empty();
-                var entry = "<div class='entry' style='visibility: hidden'><span>";
+                var entry = "<div class='entry'><span>";
                 for(n = 0; n < ac_results.length; n++) {
                     entry += ac_results[n];
                     entry += "</span></div>";
                     $("#search-display").append(entry);
                     entry = "<div class='entry'><span>";
-                    //$("#search-display:nth-child(" + (n + 1) + ")");
                 }
             }
 
             var getLinkForLabel = function(label) {
-                return "https://www.google.com";
+                return links[labels.indexOf(label)]
             }
 
             $(document).ready(function(){
                 $("#tags").hide();
-                /*
-                var linkTags = [
-                    "c++ reference",
-                    "/r/mechanicalkeyboards",
-                    "/r/mk",
-                    "youtube",
-                    "netflix",
-                    "reddit",
-                    "craigslist",
-                    "gmail",
-                    "amazon",
-                    "newegg",
-                    "thingiverse",
-                    "hokiespa",
-                    "canvas",
-                    "todoist",
-                    "g2a",
-                    "stackoverflow",
-                    "linkedin"
-                ];
-                */
-                var table = getList();
-                console.log(table);
-                /*
-                console.log(table);
+
+                getList();
+
+
                 var ac_results = [];
                 $("#tags").autocomplete({
-                        source: linkTags,
+                        source: labels,
                         delay: 0,
                         minLength: 0,
                         response: function(event, ui) {
@@ -110,19 +98,18 @@
                             $(".ui-autocomplete").hide();
                         }
                 });
-                */
+
                 var entered_text = "";
                 $(window).keydown(function(event) {
                     if(event.key == "Backspace")
                         entered_text = entered_text.slice(0, -1);
-                    else if(event.key == "Enter") {
+                    else if(event.key == "Enter")
                         window.location.href = getLinkForLabel(ac_results[0]);
-                    }
                     else if(event.key.length != 1)
                         return;
                     else
                         entered_text += event.key;
-                    console.log(entered_text);
+                        
                     $("#tags").autocomplete("search", entered_text);
                     updateSearchDisplay(ac_results);
                 });
