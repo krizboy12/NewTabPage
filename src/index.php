@@ -6,7 +6,6 @@
 	</head>
 	<body>
 		<script>
-			addEntry("Test Label", "Test Link");
 		</script>
 	</body>
 </html>

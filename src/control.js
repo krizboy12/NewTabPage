@@ -30,7 +30,7 @@ function getList() {
 		error: function(data, status) { logAJAX(status, data); }
 	})
 }
-/*
+/**
  * @function addEntry
  * @param {string} la Label of the new entry
  * @param {string} li Associated link of the new entry
