@@ -11,7 +11,7 @@
 
 		public function connect() {
 			if (!$connection) {
-				$connection = new mysqli($server, $user, $pass, $database);
+				$connection = new mysqli($server, $this->user, $pass, $database);
 		
 				if ($connection->connect_error) {
 					die("Could not connect to MySQL server: " . $connection->connect_error . "\n");
