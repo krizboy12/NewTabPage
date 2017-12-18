@@ -8,6 +8,6 @@
 	$li = $_POST["link"];
 
 	$db->connect();
-	echo $db->updateEntry($id, $la, $Li);
+	echo $db->updateEntry($id, $la, $li);
 	$db->disconnect();
 ?>

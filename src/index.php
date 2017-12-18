@@ -56,12 +56,14 @@
         </div>
 
         <script>
+		var ids = [];
             var labels = [];
             var links = [];
             var enteringNewLink = false;
 
             var splitTable = function(database_table) {
                 $.each(database_table, function(key, value) {
+		    ids.push(value.id);
                     labels.push(value.label);
                     links.push(value.link);
                 });

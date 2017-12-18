@@ -43,11 +43,16 @@ function addEntry(la, li) {
 		url: "addEntry.php",
 		data: { label: la, link: li},
 		type: "POST",
-		success: function(data, status) { logAJAX(status, data); },
+		success: function(data, status) {
+			logAJAX(status, data); 
+			ids.push(data.match(/\((\d+)\)/)[1]);
+			labels.push(la);
+			links.push(li);
+		},
 		error: function(data, status) { logAJAX(status, data); }
 	});
-	labels.push(la);
-	links.push(li);
+
+
 }
 
 /**
@@ -61,7 +66,15 @@ function updateEntry(id, la, li) {
 		url: "updateEntry.php",
 		data: {id: id, label: la, link: li},
 		type: "POST",
-		success: function(data, status) { logAJAX(status, data); },
+		success: function(data, status) {
+			logAJAX(status, data); 
+			// update the label and link in the two arrays
+			var i = ids.indexOf(id.toString());
+			if (i >= 0) {
+				labels[i] = la;
+				links[i] = li;
+			}
+		},
 		error: function(data, status) { logAJAX(status, data); } 
 	})
 }
@@ -75,7 +88,16 @@ function deleteEntry(id) {
 		url: "deleteEntry.php",
 		data: {id: id},
 		type: "POST",
-		success: function(data, status) { logAJAX(status, data); },
+		success: function(data, status) {
+			logAJAX(status, data); 
+			// remove the label and link from the two arrays
+			var i = ids.indexOf(id.toString());
+			if (i >= 0) {
+				ids.splice(i, 1);
+				labels.splice(i, 1);
+				links.splice(i, 1);
+			}
+		},
 		error: function(data, status) { logAJAX(status, data); } 
 	})
 }
