@@ -49,7 +49,7 @@
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
-				return $this->query("SELECT label,link FROM links");
+				return $this->query("SELECT * FROM links");
 			}
 		}
 
@@ -61,6 +61,28 @@
 				$this->scrub($link);
 
 				return $this->query("INSERT INTO links (label,link) VALUES ('{$label}','{$link}')");
+			}
+		}
+
+		public function deleteEntry($id) {
+			if (!$this->connection) {
+				echo "Connect to the database first";
+			} else {
+				$this->scrub($id);
+
+				return $this->query("DELETE FROM links WHERE id={$id}");
+			}
+		}
+
+		public function updateEntry($id, $la, $li) {
+			if (!$this->connection) {
+				echo "Connect to the database first";
+			} else {
+				$this->scrub($id);
+				$this->scrub($la);
+				$this->scrub($li);
+
+				return $this->query("UPDATE links SET label='{$la}',link='{$li}' WHERE id={$id}");
 			}
 		}
 	}
