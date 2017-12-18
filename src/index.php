@@ -92,6 +92,8 @@
                 */
                 var table = getList();
                 console.log(table);
+                /*
+                console.log(table);
                 var ac_results = [];
                 $("#tags").autocomplete({
                         source: linkTags,
@@ -108,6 +110,7 @@
                             $(".ui-autocomplete").hide();
                         }
                 });
+                */
                 var entered_text = "";
                 $(window).keydown(function(event) {
                     if(event.key == "Backspace")
