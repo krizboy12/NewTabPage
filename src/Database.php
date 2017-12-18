@@ -10,11 +10,11 @@
 		function __construct() {}
 
 		public function connect() {
-			if (!$connection) {
-				$connection = new mysqli($server, $this->user, $pass, $database);
+			if (!$this->connection) {
+				$this->connection = new mysqli($this->server, $this->user, $this->pass, $this->database);
 		
-				if ($connection->connect_error) {
-					die("Could not connect to MySQL server: " . $connection->connect_error . "\n");
+				if ($this->connection->connect_error) {
+					die("Could not connect to MySQL server: " . $this->connection->connect_error . "\n");
 				}
 
 				echo "Connected successfully\n";
@@ -24,7 +24,7 @@
 		}
 
 		public function diconnect() {
-			$connection->close();
+			$this->connection->close();
 			echo "Connection closed\n";
 		}
 	}
