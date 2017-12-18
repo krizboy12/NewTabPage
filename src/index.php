@@ -32,6 +32,11 @@
                 color: white;
             }
 
+            .entry a {
+                text-decoration: none;
+                color: white;
+            }
+
             .entry span {
                 display: inline-block;
                 vertical-align: middle;
@@ -53,6 +58,7 @@
         <script>
             var labels = [];
             var links = [];
+            var enteringNewLink = false;
 
             var splitTable = function(database_table) {
                 $.each(database_table, function(key, value) {
@@ -63,12 +69,12 @@
 
             var updateSearchDisplay = function(ac_results) {
                 $("#search-display").empty();
-                var entry = "<div class='entry'><span>";
+                var entry;
                 for(n = 0; n < ac_results.length; n++) {
+                    entry = "<div class='entry'><a href='" + getLinkForLabel + "'><span>";
                     entry += ac_results[n];
-                    entry += "</span></div>";
+                    entry += "</span></a></div>";
                     $("#search-display").append(entry);
-                    entry = "<div class='entry'><span>";
                 }
             }
 
@@ -101,15 +107,26 @@
 
                 var entered_text = "";
                 $(window).keydown(function(event) {
+                    if(enteringNewLink)
+                        return;
+
                     if(event.key == "Backspace")
                         entered_text = entered_text.slice(0, -1);
-                    else if(event.key == "Enter")
-                        window.location.href = getLinkForLabel(ac_results[0]);
+                    else if(event.key == "Enter") {
+                        if(ac_results.length == 0)
+                            if(entered_text.length == 0)
+                                window.location.href = "https://www.google.com";
+                            else
+                                window.location.href = "https://www.google.com/search?q=" + entered_text.replace(/ /g, "+");
+                        else
+                            window.location.href = getLinkForLabel(ac_results[0]);
+                        return;
+                    }
                     else if(event.key.length != 1)
                         return;
                     else
                         entered_text += event.key;
-                        
+
                     $("#tags").autocomplete("search", entered_text);
                     updateSearchDisplay(ac_results);
                 });

@@ -26,7 +26,7 @@ function getList() {
 			var data = trimJSON(data);
 			logAJAX(status, data[0]);
 			var json = $.parseJSON(data[1]);
-			
+
 			splitTable(json);
 		},
 		error: function(data, status) { logAJAX(status, data); }
@@ -45,7 +45,9 @@ function addEntry(la, li) {
 		type: "POST",
 		success: function(data, status) { logAJAX(status, data); },
 		error: function(data, status) { logAJAX(status, data); }
-	})
+	});
+	labels.push(la);
+	links.push(li);
 }
 
 /**
