@@ -40,6 +40,7 @@ function addEntry(la, li) {
 		url: "addEntry.php",
 		data: { label: la, link: li},
 		type: "POST",
+		success: function(data, status) { logAJAX(status, data); },
 		error: function(data, status) { logAJAX(status, data); }
 	})
 }

@@ -23,7 +23,7 @@
 			}
 		}
 
-		public function diconnect() {
+		public function disconnect() {
 			$this->connection->close();
 			echo "Connection closed\n";
 		}
@@ -42,7 +42,7 @@
 		}
 
 		private function scrub(&$s) {
-			mysql_real_escape_string($s);
+			$this->connection->real_escape_string($s);
 		}
 
 		public function getList() {
@@ -54,10 +54,14 @@
 		}
 
 		public function addEntry($label, $link) {
-			$this->scrub($label);
-			$this->scrub($link);
+			if (!$this->connection) {
+				echo "Connect to the database first";
+			} else {
+				$this->scrub($label);
+				$this->scrub($link);
 
-			return $this->query("INSERT INTO links (label,link) VALUES ('{$label}','{$link}')");
+				return $this->query("INSERT INTO links (label,link) VALUES ('{$label}','{$link}')");
+			}
 		}
 	}
 ?>
