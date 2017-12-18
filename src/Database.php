@@ -27,5 +27,26 @@
 			$this->connection->close();
 			echo "Connection closed\n";
 		}
+
+		public function query($q) {
+			// query the sql code and grab the last id and store it
+			$result = $this->connection->query($q);
+
+			// if the query failed, die with error message
+			if (!$result) {
+				die("Query failed for: " . $q . " " . $this->connection->error . " (" . $this->conn->errno . ")\n");
+			}
+
+			echo "Success: \"" . $q . "\"\n";
+			return $result;
+		}
+
+		public function retrieveLinks() {
+			if (!$this->connection) {
+				echo "Connect to the database first";
+			} else {
+				return query("SELECT * FROM links");
+			}
+		}
 	}
 ?>
