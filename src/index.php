@@ -22,15 +22,15 @@
 				type: "GET",
 				success: function(data, status) {
 					var data = trimJSON(data);
-					console.log("Status: " + status + "\nData: " + data[0]);
+					console.log("AJAX status: " + status + "\nData recieved:\n" + data[0]);
 					var json = $.parseJSON(data[1]);
 
 					for (var index in json) {
-						$("body").append(json[index][label] + ": " + json[index][link]);
+						$("body").append(json[index]["label"] + ": " + json[index]["link"]);
 					}
 				},
 				error: function(data, status) {
-					console.log("Status: " + status + "\nData: " + data);
+					console.log("AJAX status: " + status + "\nData recieved:\n" + data[0]);
 				}
 			})
 
