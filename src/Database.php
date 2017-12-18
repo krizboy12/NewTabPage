@@ -45,7 +45,7 @@
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
-				return query("SELECT * FROM links");
+				return $this->query("SELECT label,link FROM links");
 			}
 		}
 	}

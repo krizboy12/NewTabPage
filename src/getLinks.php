@@ -7,9 +7,11 @@
 	$result = $db->retrieveLinks();
 	$db->diconnect();
 
+	$rows = array();
 	while ($row = $result->fetch_assoc()) {
-		echo $row . "\n";
+		$rows[] = $row;
 	}
 
+	echo json_encode($rows);
 	$result->free_result();
 ?>
