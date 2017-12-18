@@ -4,8 +4,8 @@
 	$db = new Database();
 
 	$db->connect();
-	$result = $db->retrieveLinks();
-	$db->diconnect();
+	$result = $db->getList();
+	$db->disconnect();
 
 	$rows = array();
 	while ($row = $result->fetch_assoc()) {

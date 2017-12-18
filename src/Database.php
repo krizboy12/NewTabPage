@@ -28,7 +28,7 @@
 			echo "Connection closed\n";
 		}
 
-		public function query($q) {
+		private function query($q) {
 			// query the sql code and grab the last id and store it
 			$result = $this->connection->query($q);
 
@@ -41,12 +41,23 @@
 			return $result;
 		}
 
-		public function retrieveLinks() {
+		private function scrub(&$s) {
+			mysql_real_escape_string($s);
+		}
+
+		public function getList() {
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
 				return $this->query("SELECT label,link FROM links");
 			}
+		}
+
+		public function addEntry($label, $link) {
+			$this->scrub($label);
+			$this->scrub($link);
+
+			return $this->query("INSERT INTO links (label,link) VALUES ('{$label}','{$link}')");
 		}
 	}
 ?>

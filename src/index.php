@@ -5,7 +5,8 @@
 		<script src="control.js"></script>
 	</head>
 	<body>
-		<div id="list">
-		</div>
+		<script>
+			addEntry("Test Label", "Test Link");
+		</script>
 	</body>
 </html>
