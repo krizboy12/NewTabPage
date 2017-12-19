@@ -5,6 +5,8 @@
 		private $pass = "bkxDqaNOHJHiy7Je";
 		private $database = "newtab";
 
+		private $table = "links";
+
 		private $connection;
 
 		function __construct() {}
@@ -50,18 +52,21 @@
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
-				return $this->query("SELECT * FROM links;");
+				return $this->query("SELECT * FROM {$this->table};");
 			}
 		}
 
-		public function addEntry($label, $link) {
+		public function addEntry($la, $li) {
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
-				$this->scrub($label);
-				$this->scrub($link);
+				$this->scrub($la);
+				$this->scrub($li);
 
-				return $this->query("INSERT INTO links (label,link) VALUES ('{$label}','{$link}');");
+				if (empty($la) || empty($li))
+					return "Query failed: empty strings\n";
+
+				return $this->query("INSERT INTO {$this->table} (label,link) VALUES ('{$la}','{$li}');");
 			}
 		}
 
@@ -71,7 +76,7 @@
 			} else {
 				$this->scrub($id);
 
-				return $this->query("DELETE FROM links WHERE id={$id};");
+				return $this->query("DELETE FROM {$this->table} WHERE id={$id};");
 			}
 		}
 
@@ -83,7 +88,10 @@
 				$this->scrub($la);
 				$this->scrub($li);
 
-				return $this->query("UPDATE links SET label='{$la}',link='{$li}' WHERE id={$id};");
+				if (empty($id) || empty($la) || empty($li)) 
+					return "Query failed: empty strings\n";
+
+				return $this->query("UPDATE {$this->table} SET label='{$la}',link='{$li}' WHERE id={$id};");
 			}
 		}
 	}

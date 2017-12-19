@@ -44,10 +44,13 @@ function addEntry(la, li) {
 		data: { label: la, link: li},
 		type: "POST",
 		success: function(data, status) {
-			logAJAX(status, data); 
-			ids.push(data.match(/\((\d+)\)/)[1]);
-			labels.push(la);
-			links.push(li);
+			logAJAX(status, data);
+
+			if (data.indexOf("Query failed") < 0) {
+				ids.push(data.match(/\((\d+)\)/)[1]);
+				labels.push(la);
+				links.push(li);
+			}
 		},
 		error: function(data, status) { logAJAX(status, data); }
 	});
@@ -67,10 +70,12 @@ function updateEntry(id, la, li) {
 		success: function(data, status) {
 			logAJAX(status, data); 
 			// update the label and link in the two arrays
-			var i = ids.indexOf(id.toString());
-			if (i >= 0) {
-				labels[i] = la;
-				links[i] = li;
+			if (data.indexOf("Query failed") < 0) {
+				var i = ids.indexOf(id.toString());
+				if (i >= 0) {
+					labels[i] = la;
+					links[i] = li;
+				}
 			}
 		},
 		error: function(data, status) { logAJAX(status, data); } 
@@ -89,11 +94,13 @@ function deleteEntry(id) {
 		success: function(data, status) {
 			logAJAX(status, data); 
 			// remove the label and link from the two arrays
-			var i = ids.indexOf(id.toString());
-			if (i >= 0) {
-				ids.splice(i, 1);
-				labels.splice(i, 1);
-				links.splice(i, 1);
+			if (data.indexOf("Query failed") >= 0) {
+				var i = ids.indexOf(id.toString());
+				if (i >= 0) {
+					ids.splice(i, 1);
+					labels.splice(i, 1);
+					links.splice(i, 1);
+				}
 			}
 		},
 		error: function(data, status) { logAJAX(status, data); } 
