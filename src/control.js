@@ -1,9 +1,3 @@
-function adminDo() {
-	var pass = prompt("Please enter the admin password");
-	// check the password
-	return (pass == "password");
-}
-
 function trimJSON(data) {
 	// extract the text to put in the log
 	var $regex = /\[?({(("[a-zA-Z_$][a-zA-Z_$0-9]*"):(".*"|null),?)+},?)+\]?/g;
@@ -45,22 +39,18 @@ function getList() {
  * @param {string} li Associated link of the new entry
 */
 function addEntry(la, li) {
-	// if the user does not know the admin password, return
-	if (adminDo())
-		$.ajax({
-			url: "addEntry.php",
-			data: { label: la, link: li},
-			type: "POST",
-			success: function(data, status) {
-				logAJAX(status, data); 
-				ids.push(data.match(/\((\d+)\)/)[1]);
-				labels.push(la);
-				links.push(li);
-			},
-			error: function(data, status) { logAJAX(status, data); }
-		});
-
-
+	$.ajax({
+		url: "addEntry.php",
+		data: { label: la, link: li},
+		type: "POST",
+		success: function(data, status) {
+			logAJAX(status, data); 
+			ids.push(data.match(/\((\d+)\)/)[1]);
+			labels.push(la);
+			links.push(li);
+		},
+		error: function(data, status) { logAJAX(status, data); }
+	});
 }
 
 /**
@@ -70,22 +60,21 @@ function addEntry(la, li) {
  * @param {string} li Associated link of the new entry
 */
 function updateEntry(id, la, li) {
-	if(adminDo())
-		$.ajax({
-			url: "updateEntry.php",
-			data: {id: id, label: la, link: li},
-			type: "POST",
-			success: function(data, status) {
-				logAJAX(status, data); 
-				// update the label and link in the two arrays
-				var i = ids.indexOf(id.toString());
-				if (i >= 0) {
-					labels[i] = la;
-					links[i] = li;
-				}
-			},
-			error: function(data, status) { logAJAX(status, data); } 
-		});
+	$.ajax({
+		url: "updateEntry.php",
+		data: {id: id, label: la, link: li},
+		type: "POST",
+		success: function(data, status) {
+			logAJAX(status, data); 
+			// update the label and link in the two arrays
+			var i = ids.indexOf(id.toString());
+			if (i >= 0) {
+				labels[i] = la;
+				links[i] = li;
+			}
+		},
+		error: function(data, status) { logAJAX(status, data); } 
+	});
 }
 
 /**
@@ -93,21 +82,20 @@ function updateEntry(id, la, li) {
  * @param {number} id Database ID number of the label, link pair
 */
 function deleteEntry(id) {
-	if (adminDo())
-		$.ajax({
-			url: "deleteEntry.php",
-			data: {id: id},
-			type: "POST",
-			success: function(data, status) {
-				logAJAX(status, data); 
-				// remove the label and link from the two arrays
-				var i = ids.indexOf(id.toString());
-				if (i >= 0) {
-					ids.splice(i, 1);
-					labels.splice(i, 1);
-					links.splice(i, 1);
-				}
-			},
-			error: function(data, status) { logAJAX(status, data); } 
-		});
+	$.ajax({
+		url: "deleteEntry.php",
+		data: {id: id},
+		type: "POST",
+		success: function(data, status) {
+			logAJAX(status, data); 
+			// remove the label and link from the two arrays
+			var i = ids.indexOf(id.toString());
+			if (i >= 0) {
+				ids.splice(i, 1);
+				labels.splice(i, 1);
+				links.splice(i, 1);
+			}
+		},
+		error: function(data, status) { logAJAX(status, data); } 
+	});
 }
