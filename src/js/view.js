@@ -27,6 +27,114 @@ var splitTable = function(database_table) {
     });
 }
 
+var initializeUI = function(label_array) {
+    $("#tags").hide();
+    $("#remove-select-label").parent().css("margin-bottom", "2em");
+
+    /* MODAL STUFF
+     **************************************************************************/
+    // MODAL INITIALIZATION
+    $(".ui.small.modal.select").modal({
+        autofocus: false,
+        duration: 175,
+        onShow: function() {
+            enteringNewLink = true;
+            console.log("Setting enteringNewLink to true!");
+        },
+        onHide: function() {
+            enteringNewLink = false;
+            console.log("Setting enteringNewLink to false!");
+        }
+    });
+    $(".ui.small.modal.add").modal({
+        autofocus: false,
+        duration: 75,
+        onShow: function() {
+            enteringNewLink = true;
+            console.log("Setting enteringNewLink to true!");
+        },
+        onHide: function() {
+            enteringNewLink = false;
+            console.log("Setting enteringNewLink to false!");
+        }
+    });
+
+    $(".ui.small.modal.remove").modal({
+        autofocus: false,
+        duration: 75,
+        onShow: function() {
+            enteringNewLink = true;
+            console.log("Setting enteringNewLink to true!");
+        },
+        onHide: function() {
+            enteringNewLink = false;
+            console.log("Setting enteringNewLink to false!");
+        }
+    });
+
+    // setTimeout(function() {
+    //     $.each(labels, function(idx, val) {
+    //         $("#remove-select-label").append(`<option data-id="${ids[idx]}" value="${val}">${val}</option>`);
+    //     });
+    // }, 1);
+
+    // MODAL COMPONENT INITIALIZATION
+    $("#remove-select-label").dropdown();
+
+    // SETTINGS BUTTON MODAL
+    $("#settings").click(function() {
+        $(".ui.small.modal.select").modal("show");
+    });
+
+    // SETTINGS -> ADD BUTTON MODAL
+    $("#add").click(function() {
+        setTimeout(function() {
+            $(".ui.small.modal.select").modal("hide");
+        }, 0);
+        $(".ui.small.modal.add input").val('');
+        $(".ui.small.modal.add").modal("show");
+    });
+
+    // SETTINGS -> ADD -> SUBMIT BUTTON MODAL
+    $("#submit-add").click(function() {
+        $(".ui.small.modal.add").modal("hide");
+
+        var la = $("#add-text-label").val();
+        var li = $("#add-text-link").val();
+
+        addEntry(la, li);
+    });
+
+    // SETTINGS -> REMOVE BUTTON MODAL
+    $("#remove").click(function() {
+        setTimeout(function() {
+            $(".ui.small.modal.select").modal("hide");
+        }, 0);
+
+        $("#remove-select-label").html('');
+        $(".ui.small.modal.remove a.ui.label.transition").remove();
+        $.each(labels, function(idx, val) {
+            $("#remove-select-label").append(`<option value="${ids[idx]}">${val}</option>`);
+        });
+
+        $(".ui.small.modal.remove").modal("show");
+    });
+
+    $("#submit-remove").click(function() {
+        $(".ui.small.modal.remove").modal("hide");
+
+        // grab all the id numbers to delete and put them in a string separated by commas
+        var toDelete = '';
+        $(".ui.small.modal.remove .item.active.filtered").each(function() {
+            toDelete += $(this).attr("data-value") + ',';
+        });
+
+        // remove the last comma as it is uneeded
+        toDelete = toDelete.slice(0, -1);
+        deleteEntry(toDelete);
+    });
+}
+
 /**
  * Updates the search display in the middle of the screen with the
  * top five results from the autocomplete.
@@ -79,6 +187,8 @@ var redirectUser = function(ac_results, entered_text) {
     if(ac_results.length == 0)
         if(entered_text.length == 0)
             window.location.href = "https://www.google.com";
+        else if ((/\.com|org|net|edu|gov/gi).test(entered_text))
+            window.location.href = "https://" + entered_text;
         else
             window.location.href = "https://www.google.com/search?q=" + entered_text.replace(/ /g, "+");
     else
@@ -115,61 +225,9 @@ var jpeg = function() {
 
 /* [END] HELPER FUNCTIONS
  ******************************************************************************/
-
-
 $(document).ready(function(){
-    $("#tags").hide();
     getList();
-
-    /* MODAL STUFF
-     **************************************************************************/
-    $(".ui.small.modal.select").modal({
-        autofocus: false,
-        duration: 175,
-        onShow: function() {
-            enteringNewLink = true;
-            console.log("Setting enteringNewLink to true!");
-        },
-        onHide: function() {
-            enteringNewLink = false;
-            console.log("Setting enteringNewLink to false!");
-        }
-    });
-    $(".ui.small.modal.add").modal({
-        autofocus: false,
-        duration: 75,
-        onShow: function() {
-            enteringNewLink = true;
-            console.log("Setting enteringNewLink to true!");
-        },
-        onHide: function() {
-            enteringNewLink = false;
-            console.log("Setting enteringNewLink to false!");
-        }
-    });
-
-    // SETTINGS BUTTON MODAL
-    $("#settings").click(function() {
-        $(".ui.small.modal.select").modal("show");
-    });
-
-    // SETTINGS -> ADD BUTTON MODAL
-    $("#add").click(function() {
-        setTimeout(function() {
-            $(".ui.small.modal.select").modal("hide");
-        }, 0);
-        $(".ui.small.modal.add").modal("show");
-    });
-
-    // SETTINGS -> ADD -> SUBMIT BUTTON MODAL
-    $("#submit-add").click(function() {
-        $(".ui.small.modal.add").modal("hide");
-
-        var la = $("#text-label").val();
-        var li = $("#text-link").val();
-
-        addEntry(la, li);
-    });
+    initializeUI(labels);
 
     /*
      **************************************************************************/
@@ -222,11 +280,12 @@ $(document).ready(function(){
             entered_text += event.key;
 
         // Easter egg
-        if(entered_text.toLowerCase() == "help me")
+        if(sha256(sha256(entered_text.toLowerCase())) == "e393ba9541ce6b4fcbfa10fb4bac5271f42761bf928a0b3f9f19e9e43dfa09c6")
             there_is_no_help();
 
         // Easter egg
-        if(entered_text.toLowerCase() == "jpeg")
+        console.log(sha256(sha256(entered_text.toLowerCase())));
+        if(sha256(sha256(entered_text.toLowerCase())) == "3968808afd7211b02d78babdff0092e9b74c40686f79be3108767d7fdb60ccae")
             jpeg();
 
         // Determine what to do with the query. If the query is empty (the user

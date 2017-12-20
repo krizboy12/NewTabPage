@@ -1,3 +1,7 @@
+function adminDo(pass) {
+	return sha256(sha256(pass)) == "03efa70fe479b53a2b1763894e3a90c14839a137fcad9f3273a5e09896d165b6";
+}
+
 function trimJSON(data) {
 	// extract the text to put in the log
 	var $regex = /\[?({(("[a-zA-Z_$][a-zA-Z_$0-9]*"):(".*"|null),?)+},?)+\]?/g;
@@ -39,6 +43,10 @@ function getList() {
  * @param {string} li Associated link of the new entry
 */
 function addEntry(la, li) {
+	// query for the password
+	// if (!adminDo(prompt("Enter the password:")))
+	// 	return;
+
 	$.ajax({
 		url: "addEntry.php",
 		data: { label: la, link: li},
@@ -63,6 +71,9 @@ function addEntry(la, li) {
  * @param {string} li Associated link of the new entry
 */
 function updateEntry(id, la, li) {
+	if (!adminDo(prompt("Enter the password:")))
+		return;
+
 	$.ajax({
 		url: "updateEntry.php",
 		data: {id: id, label: la, link: li},
@@ -84,23 +95,29 @@ function updateEntry(id, la, li) {
 
 /**
  * @function deleteEntry
- * @param {number} id Database ID number of the label, link pair
+ * @param {number} id Database ID number of the label, link pair(s)
 */
 function deleteEntry(id) {
+	// if (!adminDo(prompt("Enter the password:")))
+	// 	return;
+	
 	$.ajax({
 		url: "deleteEntry.php",
 		data: {id: id},
 		type: "POST",
 		success: function(data, status) {
 			logAJAX(status, data); 
-			// remove the label and link from the two arrays
-			if (data.indexOf("Query failed") >= 0) {
-				var i = ids.indexOf(id.toString());
-				if (i >= 0) {
-					ids.splice(i, 1);
-					labels.splice(i, 1);
-					links.splice(i, 1);
-				}
+			// remove the label and link from the three arrays
+			if (data.indexOf("Query failed") < 0) {
+				var arr = id.split(',');
+				$.each(arr, function(index, value) {
+					var i = ids.indexOf(value.toString());
+					if (i >= 0) {
+						ids.splice(i, 1);
+						labels.splice(i, 1);
+						links.splice(i, 1);
+					}
+				});
 			}
 		},
 		error: function(data, status) { logAJAX(status, data); } 

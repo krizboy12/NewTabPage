@@ -76,7 +76,7 @@
 			} else {
 				$this->scrub($id);
 
-				return $this->query("DELETE FROM {$this->table} WHERE id={$id};");
+				return $this->query("DELETE FROM {$this->table} WHERE id IN ({$id});");
 			}
 		}
 
