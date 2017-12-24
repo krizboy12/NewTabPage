@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="css/transition.css">
         <link rel="stylesheet" href="css/button.css">
         <link rel="stylesheet" href="css/dropdown.css">
-        <link rel="stylesheet" href="css/semantic.css">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <link rel="shortcut icon" type="image/png" href="images/favicon.jpg" />
 
@@ -19,7 +18,7 @@
         <script src="js/modal.min.js"></script>
         <script src="js/dimmer.min.js"></script>
         <script src="js/transition.min.js"></script>
-        <script src="js/dropdown.min.js"></script>
+        <script src="js/dropdown.js"></script>
         <script src="js/sha256.min.js"></script>
         <script src="js/control.js"></script>
     </head>
@@ -42,7 +41,7 @@
         	<div class="context">
         		<button id="add" class="massive ui basic inverted button" tabindex="0">Add</button>
         		<button id="remove" class="massive ui basic inverted button" tabindex="0">Remove</button>
-        		<button class="massive ui basic inverted button" tabindex="0">Update</button>
+        		<button id="update" class="massive ui basic inverted button" tabindex="0">Update</button>
         	</div>
         </div>
 
@@ -58,11 +57,20 @@
 
         <div class="ui small basic modal settings remove">
             <div class="context">
-                <select id="remove-select-label" multiple="" class="ui fluid search dropdown">
-                </select>
+                <select id="remove-select-label" multiple="" class="ui fluid search dropdown"></select>
             </div>
             <div class="context">
                 <button class="massive ui basic inverted button" id="submit-remove">Submit</button>
+            </div>
+        </div>
+
+        <div class="ui small basic modal settings update">
+            <div class="context">
+                <select id="update-select-label" class="ui fluid search dropdown"></select>
+                <input class="text-input" type="text" id="update-text-link" placeholder="Link">
+            </div>
+            <div class="context">
+                <button class="massive ui basic inverted button" id="submit-update">Submit</button>
             </div>
         </div>
         <script src="js/view.js"></script>

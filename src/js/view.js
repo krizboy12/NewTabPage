@@ -6,6 +6,11 @@ var labels = [];
 var links = [];
 var enteringNewLink = false;
 
+var eggDict = new Map();
+eggDict.set("e393ba9541ce6b4fcbfa10fb4bac5271f42761bf928a0b3f9f19e9e43dfa09c6", "no_help");
+eggDict.set("3968808afd7211b02d78babdff0092e9b74c40686f79be3108767d7fdb60ccae", "jpeg");
+eggDict.set("5c5fdf331bdd05b6155ff1cc43b8bbf2396d0bf0d31f12970f1eb373c8cb783c", "big_switch");
+
 /* HELPER FUNCTIONS
  ******************************************************************************/
 
@@ -29,7 +34,6 @@ var splitTable = function(database_table) {
 
 var initializeUI = function(label_array) {
     $("#tags").hide();
-    $("#remove-select-label").parent().css("margin-bottom", "2em");
 
     /* MODAL STUFF
      **************************************************************************/
@@ -72,6 +76,19 @@ var initializeUI = function(label_array) {
         }
     });
 
+    $(".ui.small.modal.update").modal({
+        autofocus: false,
+        duration: 75,
+        onShow: function() {
+            enteringNewLink = true;
+            console.log("Setting enteringNewLink to true!");
+        },
+        onHide: function() {
+            enteringNewLink = false;
+            console.log("Setting enteringNewLink to false!");
+        }
+    });
+
     // setTimeout(function() {
     //     $.each(labels, function(idx, val) {
     //         $("#remove-select-label").append(`<option data-id="${ids[idx]}" value="${val}">${val}</option>`);
@@ -80,6 +97,7 @@ var initializeUI = function(label_array) {
 
     // MODAL COMPONENT INITIALIZATION
     $("#remove-select-label").dropdown();
+    $("#update-select-label").dropdown();
 
     // SETTINGS BUTTON MODAL
     $("#settings").click(function() {
@@ -133,6 +151,32 @@ var initializeUI = function(label_array) {
         toDelete = toDelete.slice(0, -1);
         deleteEntry(toDelete);
     });
+
+    // SETTINGS -> UPDATE BUTTON MODAL
+    $("#update").click(function() {
+        setTimeout(function() {
+            $(".ui.small.modal.select").modal("hide");
+        }, 0);
+
+        var labels_sorted = labels.slice();
+        labels_sorted.sort();
+        $("#update-select-label").html('');
+        $("#update-text-link").val('');
+        $.each(labels_sorted, function(idx, val) {
+            $("#update-select-label").append(`<option value="${ids[idx]}">${val}</option>`);
+        });
+
+        $(".ui.small.modal.update").modal("show");
+    });
+
+    $("#submit-update").click(function() {
+        $(".ui.small.modal.update").modal("hide");
+        var up_id = $(".ui.small.modal.update .item.active.selected").attr("data-value");
+        var up_la = $(".ui.small.modal.update .item.active.selected").text();
+        var up_li = $("#update-text-link").val();
+
+        updateEntry(up_id, up_la, up_li);
+    });
 }
 
 /**
@@ -142,12 +186,27 @@ var initializeUI = function(label_array) {
  * from the autocomplete search.
  * @returns {void}
  */
-var updateSearchDisplay = function(ac_results) {
+var updateSearchDisplay = function(ac_results, entered_text) {
+    var highlightMatch = function(label, match) {
+        query = label.toLowerCase();
+        match = match.toLowerCase();
+        var before = label.substring(0, query.indexOf(match));
+        var highlight = label.substring(query.indexOf(match), query.indexOf(match) + match.length);
+        var after = "";
+        if(query.length - (query.indexOf(match) + match.length > 0))
+            after = label.substring(query.indexOf(match) + match.length);
+
+        var return_html = "<span class='else'>" + before + "</span>" +
+                          "<span class='highlighted'>" + highlight + "</span>" +
+                          "<span class='else'>" + after + "</span>";
+        return return_html;
+    };
+
     clearSearchDisplay();
     var entry;
     for(n = 0; n < ac_results.length; n++) {
         entry = "<div class='entry'><a href='" + getLinkForLabel(ac_results[n]) + "'><span>";
-        entry += ac_results[n];
+        entry += highlightMatch(ac_results[n], entered_text);
         entry += "</span></a></div>";
         $("#search-display").append(entry);
     }
@@ -196,32 +255,15 @@ var redirectUser = function(ac_results, entered_text) {
 }
 
 /**
- * Redirects the user to a given URL.
- * @param {string} URL - The URL to redirect the user to.
- * @returns {void}
- * @deprecated
- */
-var redirectUserURL = function(URL) {
-    window.location.href = URL;
-}
-
-/**
  * Easter Egg
  */
-var there_is_no_help = function() {
+var easter_egg_display = function(key) {
+    if(key === undefined)
+        return;
     $("body").empty();
-    $("body").css("background-image", "url(images/fuck_you.jpg)");
-    $("body").css("background-repeat", "repeat");
-    $("body").append("<video id='there_is_no_help' autoplay loop><source src='video/no_help.mp4' type='video/mp4'></video>");
+    $("body").append("<video id='" + key + "' autoplay loop><source src='video/" + key + ".mp4' type=''></video>");
 }
 
-/**
- * Easter Egg
- */
-var jpeg = function() {
-     $("body").empty();
-     $("body").append("<video id='jpeg' autoplay loop><source src='video/jpeg.mp4' type='video/mp4'></video>");
-}
 
 /* [END] HELPER FUNCTIONS
  ******************************************************************************/
@@ -280,13 +322,8 @@ $(document).ready(function(){
             entered_text += event.key;
 
         // Easter egg
-        if(sha256(sha256(entered_text.toLowerCase())) == "e393ba9541ce6b4fcbfa10fb4bac5271f42761bf928a0b3f9f19e9e43dfa09c6")
-            there_is_no_help();
+        easter_egg_display(eggDict.get(sha256(sha256(entered_text.toLowerCase()))));
 
-        // Easter egg
-        console.log(sha256(sha256(entered_text.toLowerCase())));
-        if(sha256(sha256(entered_text.toLowerCase())) == "3968808afd7211b02d78babdff0092e9b74c40686f79be3108767d7fdb60ccae")
-            jpeg();
 
         // Determine what to do with the query. If the query is empty (the user
         // entered some data but then backspaced it out) clear any results from
@@ -294,7 +331,7 @@ $(document).ready(function(){
         // search.
         if(entered_text.length != 0) {
             $("#tags").autocomplete("search", entered_text);
-            updateSearchDisplay(ac_results);
+            updateSearchDisplay(ac_results, entered_text);
         }
         else
             clearSearchDisplay();

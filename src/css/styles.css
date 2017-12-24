@@ -3,6 +3,10 @@ body {
     overflow-y: hidden;
 }
 
+/* Results Display Box
+ * This is where the results from the autocomplete search are displayed.
+ * They are displayed in the middle of the page.
+ ******************************************************************************/
 #search-display {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -15,6 +19,8 @@ body {
     margin-top: 3em;
 }
 
+/* Settings Panel Toggle-Box
+ ******************************************************************************/
 #settings {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -30,6 +36,8 @@ body {
     top: 0px;
 }
 
+/* Settings Box Background Image
+ ******************************************************************************/
 #settings .background {
     height: 100%;
     width: 100%;
@@ -40,8 +48,13 @@ body {
 
 #settings:hover .background {
     margin-top: 0em;
+    animation: spin 1.5s linear infinite;
 }
 
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+/* Settings Panel Toggle-Box
+ ******************************************************************************/
 .entry {
     width: 100%;
     height: 20%;
@@ -62,6 +75,14 @@ body {
     display: inline-block;
     vertical-align: middle;
     display: table-cell;
+}
+
+.entry .else {
+    opacity: 0.75;
+}
+
+.entry .highlighted {
+    color: cyan;
 }
 
 video {
@@ -103,53 +124,101 @@ video {
     padding-bottom: 0.7em;
 }
 
-.ui.fluid.dropdown.selection.multiple {
+.ui.selection.dropdown {
+    line-height: 2.5em;
+}
+
+.ui.fluid.dropdown.selection {
     border: 2px solid rgb(151, 129, 151);
     border-radius: 7px;
     background: transparent;
     color: white;
+    margin-bottom: 12em;
 }
 
-.ui.fluid.dropdown.selection.multiple:focus {
+.ui.fluid.dropdown.selection:focus {
     border-color: white;
 }
 
-.ui.fluid.dropdown.selection.multiple:focus .icon {
+.ui.fluid.dropdown.selection:focus .icon {
     color: white;
 }
 
-.ui.fluid.dropdown.selection.multiple .icon {
+.ui.fluid.dropdown.selection .icon {
     color: rgb(151, 129, 151);
 }
 
-
-.ui.fluid.dropdown.selection.multiple .label {
+.ui.fluid.dropdown.selection .label {
     font-family: 'Roboto Mono';
     font-size: 1.5em;
 }
 
-.ui.fluid.search.dropdown.selection.multiple .menu {
+.ui.fluid.dropdown.selection .text {
+    color: white;
+    font-family: 'Roboto Mono';
+    font-size: 1.5em;
+}
+
+.ui.selection.visible.dropdown > .text:not(.default) {
+    color: rgba(115, 115, 115, 0.87) !important;
+}
+
+.ui.fluid.search.dropdown.selection .menu {
     border-left: 1px solid rgb(151, 129, 151);
     border-right: 1px solid rgb(151, 129, 151);
-    border-bottom: none;
+    border-bottom: 1px solid rgb(151, 129, 151);
     margin-left: -2px;
+    background-color: transparent;
 }
 
-.ui.fluid.search.dropdown.selection.multiple .menu .item {
+.ui.fluid.search.dropdown.selection .menu .item {
     font-family: 'Roboto Mono';
     font-size: 1.2em;
-    background-color: rgb(151, 129, 151);
+    color: white;
+    border: none;
+    background-color: transparent;
 }
 
-.ui.fluid.search.dropdown.selection.multiple .menu .message {
+.ui.fluid.search.dropdown.selection .menu .message {
     font-family: 'Roboto Mono';
     font-size: 1.2em;
+    color: white;
+}
+
+.ui.fluid.search.dropdown.selection > input.search {
+    color: white;
+    font-size: 1.40em;
+    font-family: 'Roboto Mono', sans-serif;
 }
 
 
 
 
+body ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
 
+body ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0px;
+}
+
+body ::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  border-radius: 0px;
+  background: rgba(0, 0, 0, 0.25);
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+}
+
+body ::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+body ::-webkit-scrollbar-thumb:hover {
+  background: rgba(151, 129, 151, 0.8);
+}
 
 
 
