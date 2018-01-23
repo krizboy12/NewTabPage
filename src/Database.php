@@ -56,17 +56,18 @@
 			}
 		}
 
-		public function addEntry($la, $li) {
+		public function addEntry($la, $li, $pri) {
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
 				$this->scrub($la);
 				$this->scrub($li);
+				$this->srcub($pri);
 
-				if (empty($la) || empty($li))
+				if (empty($la) || empty($li) || empty($pri))
 					return "Query failed: empty strings\n";
 
-				return $this->query("INSERT INTO {$this->table} (label,link) VALUES ('{$la}','{$li}');");
+				return $this->query("INSERT INTO {$this->table} (label,link,priority) VALUES ('{$la}','{$li}','{$pri}');");
 			}
 		}
 
@@ -80,18 +81,19 @@
 			}
 		}
 
-		public function updateEntry($id, $la, $li) {
+		public function updateEntry($id, $la, $li, $pri) {
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
 				$this->scrub($id);
 				$this->scrub($la);
 				$this->scrub($li);
+				$this->scrub($pri);
 
-				if (empty($id) || empty($la) || empty($li)) 
+				if (empty($id) || empty($la) || empty($li) || empty($pri)) 
 					return "Query failed: empty strings\n";
 
-				return $this->query("UPDATE {$this->table} SET label='{$la}',link='{$li}' WHERE id={$id};");
+				return $this->query("UPDATE {$this->table} SET label='{$la}',link='{$li}',priority='{$pri}' WHERE id={$id};");
 			}
 		}
 	}
