@@ -14,7 +14,7 @@
 		public function connect() {
 			if (!$this->connection) {
 				$this->connection = new mysqli($this->server, $this->user, $this->pass, $this->database);
-		
+
 				if ($this->connection->connect_error) {
 					die("Could not connect to MySQL server: " . $this->connection->connect_error . "\n");
 				}
@@ -56,18 +56,17 @@
 			}
 		}
 
-		public function addEntry($la, $li, $pri) {
+		public function addEntry($la, $li) {
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
 				$this->scrub($la);
 				$this->scrub($li);
-				$this->srcub($pri);
 
-				if (empty($la) || empty($li) || empty($pri))
+				if (empty($la) || empty($li))
 					return "Query failed: empty strings\n";
 
-				return $this->query("INSERT INTO {$this->table} (label,link,priority) VALUES ('{$la}','{$li}','{$pri}');");
+				return $this->query("INSERT INTO {$this->table} (label,link,priority) VALUES ('{$la}','{$li}','0');");
 			}
 		}
 
@@ -81,7 +80,7 @@
 			}
 		}
 
-		public function updateEntry($id, $la, $li, $pri) {
+		public function updateEntry($id, $la, $li, $pri = 0) {
 			if (!$this->connection) {
 				echo "Connect to the database first";
 			} else {
@@ -90,7 +89,7 @@
 				$this->scrub($li);
 				$this->scrub($pri);
 
-				if (empty($id) || empty($la) || empty($li) || empty($pri)) 
+				if (empty($id) || empty($la) || empty($li))
 					return "Query failed: empty strings\n";
 
 				return $this->query("UPDATE {$this->table} SET label='{$la}',link='{$li}',priority='{$pri}' WHERE id={$id};");

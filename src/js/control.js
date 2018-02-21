@@ -58,6 +58,7 @@ function addEntry(la, li) {
 				ids.push(data.match(/\((\d+)\)/)[1]);
 				labels.push(la);
 				links.push(li);
+				priorities.push(0);
 			}
 		},
 		error: function(data, status) { logAJAX(status, data); }
@@ -70,26 +71,27 @@ function addEntry(la, li) {
  * @param {string} la Label of the new entry
  * @param {string} li Associated link of the new entry
 */
-function updateEntry(id, la, li) {
-	if (!adminDo(prompt("Enter the password:")))
-		return;
+function updateEntry(id, la, li, pri) {
+	//if (!adminDo(prompt("Enter the password:")))
+	//	return;
 
 	$.ajax({
 		url: "updateEntry.php",
-		data: {id: id, label: la, link: li},
+		data: {id: id, label: la, link: li, priority: pri},
 		type: "POST",
 		success: function(data, status) {
-			logAJAX(status, data); 
+			logAJAX(status, data);
 			// update the label and link in the two arrays
 			if (data.indexOf("Query failed") < 0) {
 				var i = ids.indexOf(id.toString());
 				if (i >= 0) {
 					labels[i] = la;
 					links[i] = li;
+					priorities[i] = pri;
 				}
 			}
 		},
-		error: function(data, status) { logAJAX(status, data); } 
+		error: function(data, status) { logAJAX(status, data); }
 	});
 }
 
@@ -100,13 +102,13 @@ function updateEntry(id, la, li) {
 function deleteEntry(id) {
 	// if (!adminDo(prompt("Enter the password:")))
 	// 	return;
-	
+
 	$.ajax({
 		url: "deleteEntry.php",
 		data: {id: id},
 		type: "POST",
 		success: function(data, status) {
-			logAJAX(status, data); 
+			logAJAX(status, data);
 			// remove the label and link from the three arrays
 			if (data.indexOf("Query failed") < 0) {
 				var arr = id.split(',');
@@ -116,10 +118,11 @@ function deleteEntry(id) {
 						ids.splice(i, 1);
 						labels.splice(i, 1);
 						links.splice(i, 1);
+						priorities.splice(i, 1);
 					}
 				});
 			}
 		},
-		error: function(data, status) { logAJAX(status, data); } 
+		error: function(data, status) { logAJAX(status, data); }
 	});
 }

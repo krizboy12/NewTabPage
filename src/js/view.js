@@ -4,6 +4,7 @@
 var ids = [];
 var labels = [];
 var links = [];
+var priorities = [];
 var enteringNewLink = false;
 
 var eggDict = new Map();
@@ -29,6 +30,7 @@ var splitTable = function(database_table) {
         ids.push(value.id);
         labels.push(value.label);
         links.push(value.link);
+	      priorities.push(value.priority);
     });
 }
 
@@ -120,7 +122,7 @@ var initializeUI = function(label_array) {
         var la = $("#add-text-label").val();
         var li = $("#add-text-link").val();
 
-        addEntry(la, li);
+        addEntry(la, li, "0");
     });
 
     // SETTINGS -> REMOVE BUTTON MODAL
@@ -174,8 +176,20 @@ var initializeUI = function(label_array) {
         var up_id = $(".ui.small.modal.update .item.active.selected").attr("data-value");
         var up_la = $(".ui.small.modal.update .item.active.selected").text();
         var up_li = $("#update-text-link").val();
+        var up_pri = getPriorityForLabel(up_la);
 
-        updateEntry(up_id, up_la, up_li);
+        updateEntry(up_id, up_la, up_li, up_pri);
+    });
+
+    // LINKS -> CLICK
+    $("#search-display").on("click", ".entry a", function(){
+        var this_label = $(this).parent().attr("data-label");
+        var this_link = getLinkForLabel(this_label);
+        var this_id = getIdForLabel(this_label);
+        var this_pri = parseInt(getPriorityForLabel(this_label)) + 1;
+        setPriorityForLabel(this_label, this_pri);
+        console.log("Updated the priority for " + this_label + " to " + this_pri);
+        updateEntry(this_id, this_label, this_link, this_pri);
     });
 }
 
@@ -187,6 +201,18 @@ var initializeUI = function(label_array) {
  * @returns {void}
  */
 var updateSearchDisplay = function(ac_results, entered_text) {
+    var sortEntriesByPriority = function(label_array) {
+        var sortable = [];
+        for(var la_i = 0; la_i < label_array.length; la_i++)
+            sortable.push([label_array[la_i], getPriorityForLabel(label_array[la_i])]);
+
+        sortable.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+
+        return sortable.map(function(value, index) { return value[0]; });
+    };
+
     var highlightMatch = function(label, match) {
         query = label.toLowerCase();
         match = match.toLowerCase();
@@ -203,10 +229,12 @@ var updateSearchDisplay = function(ac_results, entered_text) {
     };
 
     clearSearchDisplay();
+    console.log(ac_results);
+    ac_results_sorted = sortEntriesByPriority(ac_results);
     var entry;
-    for(n = 0; n < ac_results.length; n++) {
-        entry = "<div class='entry'><a href='" + getLinkForLabel(ac_results[n]) + "'><span>";
-        entry += highlightMatch(ac_results[n], entered_text);
+    for(n = 0; n < ac_results_sorted.length; n++) {
+        entry = "<div class='entry' data-label='" + ac_results_sorted[n] + "'><a href='" + getLinkForLabel(ac_results_sorted[n]) + "'><span>";
+        entry += highlightMatch(ac_results_sorted[n], entered_text);
         entry += "</span></a></div>";
         $("#search-display").append(entry);
     }
@@ -230,6 +258,23 @@ var getLinkForLabel = function(label) {
 }
 
 /**
+ * Retrieves the ID corresponding to the given label.
+ * @param {string} label - The label string to get the link for
+ * @returns {int} The ID for the given label
+ */
+ var getIdForLabel = function(label) {
+      return ids[labels.indexOf(label)];
+ }
+
+ var getPriorityForLabel = function(label) {
+      return priorities[labels.indexOf(label)];
+ }
+
+ var setPriorityForLabel = function(label, new_priority) {
+      priorities[labels.indexOf(label)] = new_priority;
+ }
+
+/**
  * Redirects the user to either a label's corresponding link, the Google
  * homepage, or a Google search.
  * If the autocomplete search results are empty, but the user has entered text,
@@ -250,8 +295,15 @@ var redirectUser = function(ac_results, entered_text) {
             window.location.href = "https://" + entered_text;
         else
             window.location.href = "https://www.google.com/search?q=" + entered_text.replace(/ /g, "+");
-    else
+    else {
+        var this_label = ac_results[0];
+        var this_link = getLinkForLabel(this_label);
+        var this_id = getIdForLabel(this_label);
+        var this_pri = parseInt(getPriorityForLabel(this_label)) + 1;
+        setPriorityForLabel(this_label, this_pri);
+        updateEntry(this_id, this_label, this_link, this_pri);
         window.location.href = getLinkForLabel(ac_results[0]);
+      }
 }
 
 /**
@@ -330,10 +382,14 @@ $(document).ready(function(){
         // the search display. If the query contains any characters, perform a
         // search.
         if(entered_text.length != 0) {
+            // Trigger the autocomplete to populate the ac_results array.
             $("#tags").autocomplete("search", entered_text);
             updateSearchDisplay(ac_results, entered_text);
         }
-        else
+        else {
+            // Clear out the array.
+            ac_results.splice(0, ac_results.length);
             clearSearchDisplay();
+        }
     });
 });
