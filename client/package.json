@@ -1,0 +1,26 @@
+{
+  "name": "newtab",
+  "version": "2.0.0",
+  "description": "Personal new tab page",
+  "main": "app/app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "author": "Chris Blackburn",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.7.2"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}
