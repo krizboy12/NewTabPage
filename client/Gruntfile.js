@@ -18,40 +18,13 @@ module.exports = function(grunt) {
 			]
 		},
 
-		// Concatenating files
-		concat: {
-			js: {
-				src: [
-					"app/app.js",
-					"app/modules/**/scripts/*.js"
-				],
-				dest: "<%= dirs.dest %>/<%= pkg.name %>.js"
-			}
-		},
-
-		// Minification
-		uglify: {
-			options: {
-				compress: true,
-				mangle: {
-					reserved: [
-						"angular"
-					]
-				}
-			},
-			js: {
-				src: "<%= dirs.dest %>/<%= pkg.name %>.js",
-				dest: "<%= dirs.dest %>/<%= pkg.name %>.min.js"
-			}
-		},
-
 		copy: {
 			lib: {
 				files: [
 					{
 						expand: true,
 						cwd: "node_modules/angular/",
-						src: "angular.min.js",
+						src: "angular.js",
 						dest: "<%= dirs.lib %>/"
 					}
 				]
@@ -98,12 +71,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-connect");
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-contrib-copy");
-
-	grunt.registerTask("build", [
-		"clean:dest",
-		"concat:js",
-		"uglify:js"
-	]);
 
 	grunt.registerTask("serve", [
 		"clean:lib",

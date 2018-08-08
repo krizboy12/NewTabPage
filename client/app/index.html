@@ -4,13 +4,13 @@
 		<meta charset="utf-8">
 		<title>NewTab</title>
 
-		<script type="text/javascript" src="lib/angular.min.js"></script>
+		<script type="text/javascript" src="lib/angular.js"></script>
 		<script type="text/javascript" src="app.js"></script>
+		<script type="text/javascript" src="modules/linkManager/scripts/linkManager.module.js"></script>
+		<script type="text/javascript" src="modules/linkManager/scripts/linkManager.factory.js"></script>
 	</head>
 
-	<body ng-app="newTabApp">
-		<div ng-controller="MainCtrl as ctrl">
-			{{ctrl.birth}}
-		</div>
+	<body ng-app="newTabApp" capture-key-press>
+		<input type="text"></input>
 	</body>
 </html>
