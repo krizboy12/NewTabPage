@@ -1,6 +1,6 @@
 (function(angular) {
 	var factoryFunction = function() {
-		local = {
+		 myPrivate = {
 			getLinks: function() {
 				return [{
 					"label": "Search",
@@ -18,19 +18,9 @@
 			}
 		};
 
-		var publicInterface = {
-			logInput: function(input) {
+		var myPublic = {};
 
-				// if the code is backspace or escape, go up a level
-				if (input === 8 || input === 27) {
-					console.log(input);
-				} else if (input >= 65 && input <= 90) {
-					console.log("alpha");
-				}
-			}
-		};
-
-		return publicInterface;
+		return myPublic;
 	};
 
 	var factoryDependencies = [];
