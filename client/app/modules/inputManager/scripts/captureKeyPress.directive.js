@@ -1,9 +1,7 @@
 (function(angular) {
 	var directiveFunction = function(inputManagerFactory) {
 		var linkFunction = function($scope, element) {
-			element.bind("keydown", function(e) {
-				inputManagerFactory.processKey(e.keyCode);
-			});
+			element.bind("keydown", inputManagerFactory.processKeyDownEvent);
 		}
 
 		return {

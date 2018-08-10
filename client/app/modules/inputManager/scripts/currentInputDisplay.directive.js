@@ -1,17 +1,23 @@
 (function(angular) {
-	var directiveFunction = function(inputManagerFactory) {
+	var directiveFunction = function(eventManagerFactory, inputManagerFactory) {
 		var linkFunction = function($scope) {
-			$scope.currentInput = "test";
+			$scope.currentInput = "";
+
+			eventManagerFactory.subscribe("keyProcessed", function() {
+				// need to check if it is a string
+				$scope.currentInput = inputManagerFactory.getCurrentInput();
+				$scope.$evalAsync();
+			});
 		};
 
 		return {
 			restrict: "C",
-			template: "<span>{{::currentInput}}</span>",
+			template: "<span>>{{currentInput}}_</span>",
 			link: linkFunction
 		};
 	}
 
-	directiveDependencies = ["inputManagerFactory"];
+	directiveDependencies = ["eventManagerFactory", "inputManagerFactory"];
 
 	directiveDependencies.push(directiveFunction);
 	angular.module("inputManager").directive("currentInputDisplay", directiveDependencies);

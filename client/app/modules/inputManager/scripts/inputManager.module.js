@@ -1,3 +1,3 @@
 (function(angular) {
-	angular.module("inputManager", []);
+	angular.module("inputManager", ["eventManager"]);
 }(angular));

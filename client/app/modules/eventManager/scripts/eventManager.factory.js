@@ -28,10 +28,10 @@
 				var subscriptionToken = "";
 
 				if (myPrivate.validEvents.indexOf(eventName) !== -1) {
-					subscriptionToken = Date.now();
+					subscriptionToken = Date.now().toString();
 
 					myPrivate.listeners.push({
-						"subscriptionToken": subscriptionToken,
+						"token": subscriptionToken,
 						"eventName": eventName,
 						"callback": callback
 					});
@@ -51,7 +51,7 @@
 			unsubscribe: function(subscriptionToken) {
 				myPrivate.listeners.forEach(myPrivate.listeners,
 					function(subscription, index) {
-						if (subscriptionToken === subscription.subscriptionToken) {
+						if (subscriptionToken === subscription.token) {
 							myPrivate.listeners.splice(index, 1);
 							return subscriptionToken;
 						}
@@ -66,19 +66,20 @@
 			 * to the callback for each subscriber.
 			 * @param {String} eventName the name of the event
 			 * @param {*} payload the argument that gets passed to the callbacks
-			 * @param {Object} that optional scope argument.
 			 * of each subscriber.
 			 * @return {Array.<String>} Array of all subscription tokens that
 			 * had their callbacks executed
 			 */
-			publish: function(eventName, payload, that) {
-				that = that || this;
-
+			publish: function(eventName, payload) {
+				var subscriptionTokens = [];
 				myPrivate.listeners.forEach(function(subscription) {
 					if (eventName === subscription.eventName) {
-						subscription.callback.call(that, payload);
+						subscription.callback(payload);
+						subscriptionTokens.push(subscription.token);
 					}
-				};
+				});
+
+				return subscriptionTokens;
 			}
 		};
 
