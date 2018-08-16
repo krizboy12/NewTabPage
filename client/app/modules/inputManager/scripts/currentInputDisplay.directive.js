@@ -12,7 +12,7 @@
 
 		return {
 			restrict: "C",
-			template: "<span>>{{currentInput}}_</span>",
+			template: "<span style='font-family: monospace; font-size: 2em; color: #ccc; background-color: #333;'>>{{currentInput}}_</span>",
 			link: linkFunction
 		};
 	}

@@ -12,7 +12,8 @@
   "author": "Chris Blackburn",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.7.2"
+    "angular": "^1.7.2",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "grunt": "^1.0.3",

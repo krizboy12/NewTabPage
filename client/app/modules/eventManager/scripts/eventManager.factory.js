@@ -1,5 +1,5 @@
 (function(angular) {
-	var factoryFunction = function() {
+	var factoryFunction = function(_) {
 		var myPrivate = {
 			validEvents: [
 				"keyProcessed"
@@ -27,8 +27,8 @@
 			subscribe: function(eventName, callback) {
 				var subscriptionToken = "";
 
-				if (myPrivate.validEvents.indexOf(eventName) !== -1) {
-					subscriptionToken = Date.now().toString();
+				if (_.indexOf(myPrivate.validEvents, eventName) !== -1) {
+					subscriptionToken = _.toString(Date.now());
 
 					myPrivate.listeners.push({
 						"token": subscriptionToken,
@@ -45,19 +45,12 @@
 			 * @description unsubscribe from an event
 			 * @param {String} subscriptionToken the token recieved from a call
 			 * to subscription.
-			 * @return {String} The token of the unsubscription. If it was not
-			 * successful, empty string will be returned
+			 * @return {Array.<String>} The token of the unsubscription.
 			 */
 			unsubscribe: function(subscriptionToken) {
-				myPrivate.listeners.forEach(myPrivate.listeners,
-					function(subscription, index) {
-						if (subscriptionToken === subscription.token) {
-							myPrivate.listeners.splice(index, 1);
-							return subscriptionToken;
-						}
+				return _.remove(myPrivate.listeners, function(subscription) {
+					return subscriptionToken === subscription.token;
 				});
-
-				return "";
 			},
 
 			/**
@@ -72,7 +65,7 @@
 			 */
 			publish: function(eventName, payload) {
 				var subscriptionTokens = [];
-				myPrivate.listeners.forEach(function(subscription) {
+				_.forEach(myPrivate.listeners, function(subscription) {
 					if (eventName === subscription.eventName) {
 						subscription.callback(payload);
 						subscriptionTokens.push(subscription.token);
@@ -86,7 +79,7 @@
 		return myPublic;
 	};
 
-	var factoryDependencies = [];
+	var factoryDependencies = ["_"];
 
 	factoryDependencies.push(factoryFunction);
 	angular.module("eventManager").factory("eventManagerFactory", factoryDependencies);
