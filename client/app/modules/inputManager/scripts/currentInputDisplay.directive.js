@@ -1,9 +1,9 @@
 (function(angular) {
-	var directiveFunction = function(eventManagerFactory, inputManagerFactory) {
+	var directiveFunction = function(eventManagerFactory, inputManagerFactory, EVENTS) {
 		var linkFunction = function($scope) {
 			$scope.currentInput = "";
 
-			eventManagerFactory.subscribe("keyProcessed", function() {
+			eventManagerFactory.subscribe(EVENTS.KEY_PROCESSED, function() {
 				// need to check if it is a string
 				$scope.currentInput = inputManagerFactory.getCurrentInput();
 				$scope.$evalAsync();
@@ -11,13 +11,13 @@
 		};
 
 		return {
-			restrict: "C",
-			template: "<span style='font-family: monospace; font-size: 2em; color: #ccc; background-color: #333;'>>{{currentInput}}_</span>",
+			restrict: "E",
+			templateUrl: "currentInputDisplay.html",
 			link: linkFunction
 		};
 	}
 
-	directiveDependencies = ["eventManagerFactory", "inputManagerFactory"];
+	directiveDependencies = ["eventManagerFactory", "inputManagerFactory", "EVENTS"];
 
 	directiveDependencies.push(directiveFunction);
 	angular.module("inputManager").directive("currentInputDisplay", directiveDependencies);

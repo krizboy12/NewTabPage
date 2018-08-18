@@ -1,10 +1,6 @@
 (function(angular) {
 	var factoryFunction = function(_) {
 		var myPrivate = {
-			validEvents: [
-				"keyProcessed"
-			],
-
 			// Should really be a hash table so unsub is constant time, but
 			// shouldn't matter too much for this application. I'll change it
 			// if I need to.
@@ -26,16 +22,13 @@
 			 */
 			subscribe: function(eventName, callback) {
 				var subscriptionToken = "";
+				subscriptionToken = _.toString(Date.now());
 
-				if (_.indexOf(myPrivate.validEvents, eventName) !== -1) {
-					subscriptionToken = _.toString(Date.now());
-
-					myPrivate.listeners.push({
-						"token": subscriptionToken,
-						"eventName": eventName,
-						"callback": callback
-					});
-				}
+				myPrivate.listeners.push({
+					"token": subscriptionToken,
+					"eventName": eventName,
+					"callback": callback
+				});
 
 				return subscriptionToken;
 			},

@@ -7,7 +7,6 @@ A new tab page written in AngularJS for the front end. RESTful services for this
 This version of the new tab page will feature locally stored preferences instead of fetching them from a database on every page load. The user will be able to export their preferences to a file and eventually to a server.
 
 TODO:
-- include lodash for good helper methods and refactor code to use lodash
 - Get karma configured to run unit tests
 - comments, jsdoc style
 - event listeners array should really be a hash table
@@ -16,4 +15,3 @@ TODO:
   - ":h|hot" will stand for hotkey mode, this will be where the groupings come into play. You can set a default mode (hotkey, command, saved link mass search)
   - ":e|exit" will close the tab
   - backspace will have universal functionality. Removing the colon will put you back into your default mode.
-- Remove embedded html partials and put them in separate files

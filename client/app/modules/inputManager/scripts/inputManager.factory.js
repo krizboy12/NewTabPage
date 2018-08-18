@@ -1,8 +1,8 @@
 (function(angular) {
-	var factoryFunction = function(eventManagerFactory, preferencesManagerFactory, INPUT_STATES) {
+	var factoryFunction = function(_, eventManagerFactory, preferencesManagerFactory, INPUT_STATES) {
 		var myPrivate = {
 			currentInput: "",
-			displayableCharRegex: /^[-a-zA-Z0-9!@#$%^&*()_+=\[\]{}:;"',./<>?\\|]$/,
+			displayableCharRegex: /^[-a-zA-Z0-9!@#$%^&*()_+=\[\]{}:;"',./<>?\\|`~]$/,
 
 			currentInputState: "",
 
@@ -65,7 +65,7 @@
 		return myPublic;
 	};
 
-	var factoryDependencies = ["eventManagerFactory", "preferencesManagerFactory", "INPUT_STATES"];
+	var factoryDependencies = ["_", "eventManagerFactory", "preferencesManagerFactory", "INPUT_STATES"];
 
 	factoryDependencies.push(factoryFunction);
 	angular.module("inputManager").factory("inputManagerFactory", factoryDependencies);
