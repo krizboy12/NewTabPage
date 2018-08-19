@@ -5,11 +5,18 @@ module.exports = {
 			"app/app.js",
 			"app/modules/**/partials/*.html",
 			"app/modules/**/styles/*.css",
+			"app/app.css",
 			"app/modules/**/scripts/*.js",
+			"!app/modules/htmlPartials/**/*"
 		],
 		options: {
 			livereload: true
 		},
-		tasks: ["clean:index", "index"]
+		tasks: [
+			"clean:templates",
+			"ngtemplates",
+			"clean:index",
+			"index"
+		]
 	}
 };

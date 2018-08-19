@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 			"ngtemplates",
 			"concat",
 			"minify",
+			"copy:dist",
 			"index"
 		]);
 	});

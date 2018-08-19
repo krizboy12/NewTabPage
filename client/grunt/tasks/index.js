@@ -43,8 +43,7 @@ module.exports = function(grunt) {
 		};
 
 		if (grunt.config("isBuild")) {
-			var min = (grunt.config("isDebug")) ? "" : ".min";
-			var glob = "styles" + min + ".css";
+			var glob = "styles.css";
 			indexTplOptions.data.css = tagify(glob, tagTemplates.css, grunt.config("dirs.dest"));
 
 			indexTplOptions.data.lib = "";
@@ -59,10 +58,18 @@ module.exports = function(grunt) {
 				});
 			});
 
-			glob = grunt.config("package.name") + min + ".js";
+			var scriptTemplate = "<script type=\"text/javascript\"><%= script %></script>"
+			indexTplOptions.data.lib += grunt.template.process(scriptTemplate, {
+				data: {
+					script: grunt.file.read("app/include.lib.js")
+				}
+			});
+
+			glob = grunt.config("package.name") + ".min.js";
 			indexTplOptions.data.scripts = tagify(glob, tagTemplates.js, grunt.config("dirs.dest"));
 		} else {
 			indexTplOptions.data.css = tagify([
+				"app.css",
 				"modules/**/styles/*.css"
 			], tagTemplates.css, "app");
 			indexTplOptions.data.lib = tagify([

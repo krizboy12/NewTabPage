@@ -2,7 +2,7 @@ module.exports = {
 	dev: {
 		options: {
 			bootstrap: function(module, script) {
-				script = script.slice(script.indexOf("$")).replace(/[\t\n\r\v\f\ ]+/g, "");
+				script = script.slice(script.indexOf("$"));
 				return "(function(angular){angular.module('htmlPartials', []).run(['$templateCache'," +
 					"function($templateCache){" + script + "}]);}(angular));";
 			},

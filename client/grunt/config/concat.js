@@ -10,6 +10,7 @@ module.exports = {
 	},
 	css: {
 		src: [
+			"app/app.css",
 			"app/modules/**/styles/*.css"
 		],
 		dest: "<%= dirs.dest %>/styles.css"
