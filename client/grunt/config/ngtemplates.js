@@ -14,6 +14,6 @@ module.exports = {
 			}
 		},
 		src: "app/modules/**/partials/*.html",
-		dest: "app/modules/htmlTemplateCacher/scripts/htmlTemplateCacher.module.js"
+		dest: "app/modules/htmlPartials/scripts/htmlPartials.module.js"
 	}
 };

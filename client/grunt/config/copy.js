@@ -4,14 +4,14 @@ module.exports = {
 			{
 				expand: true,
 				cwd: "node_modules/angular",
-				src: "angular.min.js",
-				dest: "<%= dirs.lib %>/"
+				src: "angular.js",
+				dest: "app/lib/"
 			},
 			{
 				expand: true,
 				cwd: "node_modules/lodash",
-				src: "lodash.min.js",
-				dest: "<%= dirs.lib %>/"
+				src: "lodash.js",
+				dest: "app/lib/"
 			}
 		]
 	}

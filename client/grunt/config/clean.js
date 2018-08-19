@@ -3,9 +3,12 @@ module.exports = {
 		"<%= dirs.dest %>/"
 	],
 	lib: [
-		"<%= dirs.lib %>/"
+		"app/lib"
 	],
 	templates: [
-		"app/modules/htmlTemplateCacher"
+		"app/modules/htmlPartials/"
+	],
+	index: [
+		"app/index.html"
 	]
 };

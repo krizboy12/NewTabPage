@@ -1,4 +1,5 @@
 **/node_modules/
 **/dist/
 **/lib/
-client/app/modules/htmlTemplateCacher/
+client/app/modules/htmlPartials/
+client/app/index.html

@@ -5,14 +5,13 @@ module.exports = function(grunt) {
 		configPath: path.join(process.cwd(), "grunt/config"),
 		jitGrunt: {
 			staticMappings: {
-				ngtemplates: "grunt-angular-templates",
+				ngtemplates: "grunt-angular-templates"
 			},
 			customTasksDir: "grunt/tasks"
 		},
 		data: {
 			dirs: {
 				dest: "dist",
-				lib: "app/lib"
 			}
 		}
 	});

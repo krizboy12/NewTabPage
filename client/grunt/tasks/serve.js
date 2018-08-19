@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 		"copy:lib",
 		"clean:templates",
 		"ngtemplates:dev",
+		"index",
 		"connect:serve",
 		"watch:serve"
 	]);
