@@ -2,6 +2,6 @@
 	var app = angular.module("eventManager");
 
 	app.constant("EVENTS", {
-		KEY_PROCESSED: "keyProcessed"
+		CURRENT_INPUT_UPDATED: "currentInputUpdated"
 	});
 }(angular));

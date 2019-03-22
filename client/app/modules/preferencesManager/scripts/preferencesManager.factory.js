@@ -8,16 +8,49 @@
 			 * @description Loads user preferences from local storage.
 			 */
 			loadPreferences: function() {
-				_.set(myPrivate.preferences, "defaults.inputState", "stateSearch");
-				_.set(myPrivate.preferences, "defaults.searchEngine", "https://www.google.com/search?q=");
+
+				// Load the user's preferred search engine query string
+				_.set(myPrivate.preferences, "searchQuery", "https://www.google.com/search?q=");
+
+				// We will also load the user's saved list of label/link pairs
+				var pairs = [
+					{
+						label: "GitHub",
+						link: "https://github.com/"
+					},
+					{
+						label: "GitHub",
+						link: "https://github.com/"
+					},
+					{
+						label: "GitHub",
+						link: "https://github.com/"
+					},
+					{
+						label: "GitHub",
+						link: "https://github.com/"
+					},
+					{
+						label: "GitHub",
+						link: "https://github.com/"
+					},
+					{
+						label: "GitHub",
+						link: "https://github.com/"
+					},
+				];
+
+				_.set(myPrivate.preferences, "llpairs", pairs);
 			}
 		};
 
 		var myPublic = {
-			getDefault: function(item) {
-				if (_.isString(item)) {
-					return _.get(myPrivate.preferences.defaults, item);
-				}
+			getSearchQuery: function() {
+				return _.get(myPrivate.preferences, "searchQuery");
+			},
+
+			getLLPairs: function() {
+				return _.get(myPrivate.preferences, "llpairs")
 			}
 		};
 

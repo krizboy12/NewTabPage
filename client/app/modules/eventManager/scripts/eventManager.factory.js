@@ -1,9 +1,6 @@
 (function(angular) {
 	var factoryFunction = function(_) {
 		var myPrivate = {
-			// Should really be a hash table so unsub is constant time, but
-			// shouldn't matter too much for this application. I'll change it
-			// if I need to.
 			listeners: []
 		};
 

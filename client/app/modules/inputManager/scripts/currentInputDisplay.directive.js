@@ -1,11 +1,10 @@
 (function(angular) {
-	var directiveFunction = function(eventManagerFactory, inputManagerFactory, EVENTS) {
+	var directiveFunction = function(eventManagerFactory, EVENTS) {
 		var linkFunction = function($scope) {
 			$scope.currentInput = "";
 
-			eventManagerFactory.subscribe(EVENTS.KEY_PROCESSED, function() {
-				// need to check if it is a string
-				$scope.currentInput = inputManagerFactory.getCurrentInput();
+			eventManagerFactory.subscribe(EVENTS.CURRENT_INPUT_UPDATED, function(currentInput) {
+				$scope.currentInput = currentInput;
 				$scope.$evalAsync();
 			});
 		};
@@ -17,7 +16,7 @@
 		};
 	}
 
-	directiveDependencies = ["eventManagerFactory", "inputManagerFactory", "EVENTS"];
+	directiveDependencies = ["eventManagerFactory", "EVENTS"];
 
 	directiveDependencies.push(directiveFunction);
 	angular.module("inputManager").directive("currentInputDisplay", directiveDependencies);
