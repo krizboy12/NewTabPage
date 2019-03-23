@@ -54,7 +54,7 @@
 			},
 
 			exportPreferences: function() {
-				var preferences = JSON.stringify(myPrivate.preferences);
+				var preferences = angular.toJson(myPrivate.preferences);
 				download(preferences, "preferences.json", "text/json");
 			},
 
