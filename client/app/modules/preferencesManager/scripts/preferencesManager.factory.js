@@ -18,8 +18,7 @@
 
 		var myPublic = {
 			savePreferences: function() {
-				localStorage.removeItem("preferences");
-				localStorage.setItem("preferences", JSON.stringify(myPrivate.preferences));
+				localStorage.setItem("preferences", angular.toJson(myPrivate.preferences));
 			},
 
 			getSearchQuery: function() {
