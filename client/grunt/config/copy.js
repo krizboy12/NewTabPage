@@ -12,6 +12,12 @@ module.exports = {
 				cwd: "node_modules/lodash",
 				src: "lodash.js",
 				dest: "app/lib/"
+			},
+			{
+				expand: true,
+				cwd: "node_modules/downloadjs",
+				src: "download.js",
+				dest: "app/lib/"
 			}
 		]
 	},
@@ -27,6 +33,12 @@ module.exports = {
 				expand: true,
 				cwd: "node_modules/lodash",
 				src: "lodash.min.js",
+				dest: "<%= dirs.dest %>/lib/"
+			},
+			{
+				expand: true,
+				cwd: "node_modules/downloadjs",
+				src: "download.min.js",
 				dest: "<%= dirs.dest %>/lib/"
 			}
 		]

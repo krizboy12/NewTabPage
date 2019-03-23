@@ -15,6 +15,18 @@
 
 			savePreferences: function() {
 				preferencesManagerFactory.savePreferences();
+			},
+
+			setSearchQuery: function(args) {
+				preferencesManagerFactory.setSearchQuery(args[1]);
+			},
+
+			exportPreferences: function() {
+				preferencesManagerFactory.exportPreferences();
+			},
+
+			importPreferences: function(args) {
+				preferencesManagerFactory.importPreferences(args[1]);
 			}
 		};
 
@@ -40,6 +52,12 @@
 					myCommands.updateLabelLinkPair(args);
 				} else if (args[0] === "save" || args[0] === "s") {
 					myCommands.savePreferences();
+				} else if (args[0] === "setSearchQuery" || args[0] === "ssq") {
+					myCommands.setSearchQuery(args);
+				} else if (args[0] === "exportPreferences" || args[0] === "ep") {
+					myCommands.exportPreferences();
+				} else if (args[0] === "importPreferences" || args[0] === "ip") {
+					myCommands.importPreferences(args);
 				}
 			},
 

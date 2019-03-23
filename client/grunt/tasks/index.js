@@ -74,7 +74,8 @@ module.exports = function(grunt) {
 			], tagTemplates.css, "app");
 			indexTplOptions.data.lib = tagify([
 				"lib/lodash.js",
-				"lib/angular.js"
+				"lib/angular.js",
+				"lib/download.js"
 			], tagTemplates.js, "app");
 			indexTplOptions.data.scripts = tagify([
 				"modules/**/scripts/*.module.js",

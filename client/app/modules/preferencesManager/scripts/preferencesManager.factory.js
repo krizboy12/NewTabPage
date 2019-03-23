@@ -22,7 +22,7 @@
 			},
 
 			getSearchQuery: function() {
-				var searchQuery = _.get(myPrivate, "preferences.earchQuery", "https://www.google.com/search?q=");
+				var searchQuery = _.get(myPrivate, "preferences.searchQuery", "https://www.google.com/search?q=");
 				return searchQuery;
 			},
 
@@ -47,6 +47,19 @@
 				var pair = myPublic.removeLabelLinkPair(label)[0];
 				pair.link = link;
 				myPrivate.preferences.llpairs.push(pair);
+			},
+
+			setSearchQuery: function(searchQuery) {
+				_.set(myPrivate, "preferences.searchQuery", searchQuery);
+			},
+
+			exportPreferences: function() {
+				var preferences = JSON.stringify(myPrivate.preferences);
+				download(preferences, "preferences.json", "text/json");
+			},
+
+			importPreferences: function(preferences) {
+				myPrivate.preferences = JSON.parse(preferences);
 			}
 		};
 
