@@ -2,6 +2,7 @@
 	var directiveFunction = function(inputManagerFactory) {
 		var linkFunction = function($scope, element) {
 			element.bind("keydown", inputManagerFactory.processKeyDownEvent);
+			element.bind("paste", inputManagerFactory.processPasteEvent);
 		}
 
 		return {

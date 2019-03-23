@@ -1,5 +1,23 @@
 (function(angular) {
 	var factoryFunction = function(_, eventManagerFactory, preferencesManagerFactory, labelLinkFactory, EVENTS) {
+		var myCommands = {
+			addLabelLinkPair: function(args) {
+				preferencesManagerFactory.addLabelLinkPair(args[1], args[2]);
+			},
+
+			removeLabelLinkPair: function(args) {
+				preferencesManagerFactory.removeLabelLinkPair(args[1]);
+			},
+
+			updateLabelLinkPair: function(args) {
+				preferencesManagerFactory.updateLabelLinkPair(args[1], args[2]);
+			},
+
+			savePreferences: function() {
+				preferencesManagerFactory.savePreferences();
+			}
+		};
+
 		var myPrivate = {
 			currentInput: "",
 			displayableCharRegex: /^[-a-zA-Z0-9!@#$%^&*()_+=\[\]{}:;"',./<>?\\|`~]$/,
@@ -8,9 +26,21 @@
 				return myPrivate.displayableCharRegex.test(key);
 			},
 
+			signalInputUpdated: function() {
+					eventManagerFactory.publish(EVENTS.CURRENT_INPUT_UPDATED, myPrivate.currentInput);
+			},
+
 			handleCommand: function() {
 				var args = _.split(_.trimStart(myPrivate.currentInput, ":"), " ");
-				console.log(args);
+				if (args[0] === "add" || args[0] === "a") {
+					myCommands.addLabelLinkPair(args);
+				} else if (args[0] === "remove" || args[0] === "r") {
+					myCommands.removeLabelLinkPair(args);
+				} else if (args[0] === "update" || args[0] === "u") {
+					myCommands.updateLabelLinkPair(args);
+				} else if (args[0] === "save" || args[0] === "s") {
+					myCommands.savePreferences();
+				}
 			},
 
 			search: function() {
@@ -60,8 +90,14 @@
 						myPrivate.processCurrentInput();
 					}
 
-					eventManagerFactory.publish(EVENTS.CURRENT_INPUT_UPDATED, myPrivate.currentInput);
+					myPrivate.signalInputUpdated();
 				}
+			},
+
+			processPasteEvent: function(e) {
+				var clipboardData = e.clipboardData || window.clipboardData;
+				myPrivate.currentInput += clipboardData.getData("Text");
+				myPrivate.signalInputUpdated();
 			},
 
 			getCurrentInput: function() {
