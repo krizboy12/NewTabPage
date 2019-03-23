@@ -3,6 +3,12 @@
 		var linkFunction = function($scope, element) {
 			element.bind("keydown", inputManagerFactory.processKeyDownEvent);
 			element.bind("paste", inputManagerFactory.processPasteEvent);
+
+			window.addEventListener("dragover", function(e) {
+				e.preventDefault();
+			});
+
+			window.addEventListener("drop", inputManagerFactory.processFileUpload);
 		}
 
 		return {
@@ -14,5 +20,5 @@
 	directiveDependencies = ["inputManagerFactory"];
 
 	directiveDependencies.push(directiveFunction);
-	angular.module("inputManager").directive("captureKeyPress", directiveDependencies);
+	angular.module("inputManager").directive("captureInput", directiveDependencies);
 }(angular));

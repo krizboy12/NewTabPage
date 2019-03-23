@@ -18,6 +18,7 @@
 
 		var myPublic = {
 			savePreferences: function() {
+				localStorage.removeItem("preferences");
 				localStorage.setItem("preferences", JSON.stringify(myPrivate.preferences));
 			},
 
@@ -59,6 +60,7 @@
 			},
 
 			importPreferences: function(preferences) {
+				myPrivate.preferences = null;
 				myPrivate.preferences = JSON.parse(preferences);
 			}
 		};

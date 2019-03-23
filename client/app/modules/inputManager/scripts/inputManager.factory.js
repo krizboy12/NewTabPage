@@ -50,7 +50,7 @@
 					myCommands.removeLabelLinkPair(args);
 				} else if (args[0] === "update" || args[0] === "u") {
 					myCommands.updateLabelLinkPair(args);
-				} else if (args[0] === "save" || args[0] === "s") {
+				} else if (args[0] === "saveLocal" || args[0] === "sl") {
 					myCommands.savePreferences();
 				} else if (args[0] === "setSearchQuery" || args[0] === "ssq") {
 					myCommands.setSearchQuery(args);
@@ -118,9 +118,27 @@
 				myPrivate.signalInputUpdated();
 			},
 
+			processFileUpload: function(e) {
+				e.preventDefault();
+				var file = e.dataTransfer.files[0];
+				if (file.type !== "application/json") {
+					alert("Not a json file!");
+					return;
+				}
+
+				reader = new FileReader();
+				reader.onload = function(e) {
+
+					preferencesManagerFactory.importPreferences(e.target.result);
+					alert("Preferences Imported!");
+				}
+
+				reader.readAsText(file);
+			},
+
 			getCurrentInput: function() {
 				return myPrivate.currentInput;
-			}
+			},
 		};
 
 		return myPublic;

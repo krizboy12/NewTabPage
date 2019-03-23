@@ -8,7 +8,7 @@
 		<%= lib %>
 	</head>
 
-	<body ng-app="newTabApp" capture-key-press>
+	<body ng-app="newTabApp" capture-input>
 		<label-link-matches></label-link-matches>
 
 		<current-input-display></current-input-display>
