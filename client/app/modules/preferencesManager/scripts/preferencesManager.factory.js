@@ -59,7 +59,6 @@
 			},
 
 			importPreferences: function(preferences) {
-				myPrivate.preferences = null;
 				myPrivate.preferences = JSON.parse(preferences);
 			}
 		};

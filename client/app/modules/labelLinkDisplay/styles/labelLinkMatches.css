@@ -1,0 +1,23 @@
+label-link-matches {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none; user-select: none;
+	-o-user-select: none;
+
+	text-align: center;
+	display: block;
+	font-family: 'Roboto Mono', sans-serif;
+	font-size: 3em;
+}
+
+label-link-matches .match-list {
+	height: 20%;
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 5%;
+}
+
+label-link-matches a {
+	text-decoration: none;
+	color: inherit;
+}
