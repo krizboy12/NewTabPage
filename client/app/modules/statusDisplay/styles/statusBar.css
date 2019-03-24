@@ -1,0 +1,24 @@
+status-bar {
+	--background-color: transparent;
+
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none; user-select: none;
+	-o-user-select: none;
+
+	text-align: center;
+	vertical-align: center;
+	display: none;
+	height: 1em;
+	width: 100%;
+	padding: 0;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+
+	background-color: var(--background-color);
+
+	font-family: "Monaco", "Lucida Console", sans-serif;
+	font-size: 1em;
+	color: white;
+}

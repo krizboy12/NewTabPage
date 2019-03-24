@@ -3,30 +3,58 @@
 		var myCommands = {
 			addLabelLinkPair: function(args) {
 				preferencesManagerFactory.addLabelLinkPair(args[1], args[2]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Pair added",
+					success: true
+				});
 			},
 
 			removeLabelLinkPair: function(args) {
 				preferencesManagerFactory.removeLabelLinkPair(args[1]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Pair removed",
+					success: true
+				});
 			},
 
 			updateLabelLinkPair: function(args) {
 				preferencesManagerFactory.updateLabelLinkPair(args[1], args[2]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Pair updated",
+					success: true
+				});
 			},
 
 			savePreferences: function() {
 				preferencesManagerFactory.savePreferences();
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Preferences saved",
+					success: true
+				});
 			},
 
 			setSearchQuery: function(args) {
 				preferencesManagerFactory.setSearchQuery(args[1]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Pair Search query set",
+					success: true
+				});
 			},
 
 			exportPreferences: function() {
 				preferencesManagerFactory.exportPreferences();
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Preferences exported",
+					success: true
+				});
 			},
 
 			importPreferences: function(args) {
 				preferencesManagerFactory.importPreferences(args[1]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+					message: "Preferences imported",
+					success: true
+				});
 			}
 		};
 
@@ -58,6 +86,11 @@
 					myCommands.exportPreferences();
 				} else if (args[0] === "importPreferences" || args[0] === "ip") {
 					myCommands.importPreferences(args);
+				} else {
+					eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+						message: "No such command",
+						success: false
+					});
 				}
 			},
 
@@ -122,15 +155,16 @@
 				e.preventDefault();
 				var file = e.dataTransfer.files[0];
 				if (file.type !== "application/json") {
-					alert("Not a json file!");
+					eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
+						message: "Not a json file",
+						success: false
+					});
 					return;
 				}
 
 				reader = new FileReader();
 				reader.onload = function(e) {
-
-					preferencesManagerFactory.importPreferences(e.target.result);
-					alert("Preferences Imported!");
+					myCommands.importPreferences(e.target.result);
 				}
 
 				reader.readAsText(file);

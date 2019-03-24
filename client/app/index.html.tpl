@@ -9,6 +9,8 @@
 	</head>
 
 	<body ng-app="newTabApp" capture-input>
+		<status-bar></status-bar>
+
 		<label-link-matches></label-link-matches>
 
 		<current-input-display></current-input-display>

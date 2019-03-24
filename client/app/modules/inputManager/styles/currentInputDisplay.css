@@ -36,7 +36,7 @@ current-input-display .prompt {
 }
 
 current-input-display .triangle {
-	margin-right: calc(var(--height) / -2.7);
+	margin-right: calc(var(--height) * -0.3);
 	border-left: calc(var(--height) / 2) solid var(--prompt-background-color);
 	border-right: calc(var(--height) / 2) solid transparent;
 	border-bottom: calc(var(--height) / 2) solid transparent;
