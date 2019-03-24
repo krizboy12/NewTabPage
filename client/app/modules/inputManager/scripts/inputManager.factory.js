@@ -154,20 +154,26 @@
 			processFileUpload: function(e) {
 				e.preventDefault();
 				var file = e.dataTransfer.files[0];
-				if (file.type !== "application/json") {
+				reader = new FileReader();
+
+				if (file.type === "application/json") {
+					reader.onload = function(e) {
+						myCommands.importPreferences([null, e.target.result]);
+					}
+
+					reader.readAsText(file);
+				} else if (file.type === "image/png" || file.type === "image/jpeg") {
+					reader.onload = function(e) {
+						preferencesManagerFactory.setImage(e.target.result);
+					}
+
+					reader.readAsDataURL(file);
+				} else {
 					eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
-						message: "Not a json file",
+						message: "Not a supported file type",
 						success: false
 					});
-					return;
 				}
-
-				reader = new FileReader();
-				reader.onload = function(e) {
-					myCommands.importPreferences(e.target.result);
-				}
-
-				reader.readAsText(file);
 			},
 
 			getCurrentInput: function() {

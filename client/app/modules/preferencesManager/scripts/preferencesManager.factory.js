@@ -13,6 +13,11 @@
 				if (!_.has(myPrivate, "preferences.llpairs")) {
 					_.set(myPrivate, "preferences.llpairs", []);
 				}
+
+				if (_.has(myPrivate, "preferences.background")) {
+					document.body.style.backgroundImage = "url(" +
+						_.get(myPrivate, "preferences.background") + ")";
+				}
 			}
 		};
 
@@ -51,6 +56,11 @@
 
 			setSearchQuery: function(searchQuery) {
 				_.set(myPrivate, "preferences.searchQuery", searchQuery);
+			},
+
+			setImage: function(imageURI) {
+				_.set(myPrivate, "preferences.background", imageURI);
+				document.body.style.backgroundImage = "url(" + imageURI + ")";
 			},
 
 			exportPreferences: function() {
