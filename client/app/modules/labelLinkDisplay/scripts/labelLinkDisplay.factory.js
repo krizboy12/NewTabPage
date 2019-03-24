@@ -1,5 +1,5 @@
 (function(angular) {
-	var factoryFunction = function(_, preferencesManagerFactory) {
+	var factoryFunction = function(_, $sce, preferencesManagerFactory) {
 		var myPrivate = {
 			matches: []
 		};
@@ -7,7 +7,7 @@
 		var myPublic = {
 			updateMatches: function(currentInput) {
 				if (currentInput === "" || currentInput.charAt(0) === ":") {
-					matches = [];
+					myPrivate.matches = [];
 					return [];
 				}
 
@@ -16,9 +16,12 @@
 				_.forEach(lls, function(ll) {
 
 					// If the label contains the current input text,
-					var matchStart = _.toLower(ll.label).indexOf(_.toLower(currentInput));
-					if (matchStart !== -1) {
-						myPrivate.matches.push(ll);
+					var p = new RegExp(currentInput, "i");
+					if (p.test(ll.label)) {
+						myPrivate.matches.push({
+							label: $sce.trustAsHtml(ll.label.replace(new RegExp("(" + currentInput + ")", "i"), "<span class='highlight'>$1</span>")),
+							link: ll.link
+						});
 					}
 				});
 
@@ -37,7 +40,7 @@
 		return myPublic;
 	};
 
-	var factoryDependencies = ["_", "preferencesManagerFactory"];
+	var factoryDependencies = ["_", "$sce", "preferencesManagerFactory"];
 
 	factoryDependencies.push(factoryFunction);
 	angular.module("labelLinkDisplay").factory("labelLinkFactory", factoryDependencies);

@@ -1,7 +1,7 @@
 <div class="match-list">
 	<div ng-repeat="ll in lls">
 		<div>
-			<a ng-href="{{::ll.link}}">{{::ll.label}}</a>
+			<a ng-href="{{::ll.link}}" ng-bind-html="::ll.label"></a>
 		</div>
 	</div>
 </div>

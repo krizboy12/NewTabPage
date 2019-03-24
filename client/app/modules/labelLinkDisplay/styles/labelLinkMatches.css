@@ -6,7 +6,7 @@ label-link-matches {
 
 	text-align: center;
 	display: block;
-	font-family: 'Roboto Mono', sans-serif;
+	font-family: 'Roboto Mono', monospace;
 	font-size: 3em;
 }
 
@@ -15,6 +15,10 @@ label-link-matches .match-list {
 	width: 100%;
 	margin: 0 auto;
 	margin-top: 5%;
+}
+
+label-link-matches .highlight {
+	color: cyan;
 }
 
 label-link-matches a {
