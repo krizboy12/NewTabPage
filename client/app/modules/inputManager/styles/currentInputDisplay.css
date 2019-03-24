@@ -5,6 +5,10 @@ current-input-display {
 
 	--prompt-background-color: var(--color);
 	--prompt-color: var(--background-color);
+	--prompt-font-family: monospace;
+
+	--input-text-color: #ccc;
+	--input-font-family: monospace;
 
 	background-color: var(--background-color);
 	width: 100%;
@@ -23,7 +27,7 @@ current-input-display div {
 current-input-display .text {
 	padding: 0;
 	line-height: var(--height);
-	color: var(--color);
+	color: var(--input-text-color);
 	font-family: "Monaco", "Lucida Console", monospace;
 	font-size: 1em;
 }

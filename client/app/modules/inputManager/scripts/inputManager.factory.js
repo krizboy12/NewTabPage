@@ -25,6 +25,21 @@
 				});
 			},
 
+			setFontColor: function(args) {
+				var setResponse = preferencesManagerFactory.setFontColor(args[1], args[2]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, setResponse);
+			},
+
+			setFontFamily: function(args) {
+				var setResponse = preferencesManagerFactory.setFontFamily(args[1], args[2]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, setResponse);
+			},
+
+			setBackgroundColor: function(args) {
+				var setResponse = preferencesManagerFactory.setBackgroundColor(args[1], args[2]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, setResponse);
+			},
+
 			savePreferences: function() {
 				preferencesManagerFactory.savePreferences();
 				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
@@ -86,7 +101,15 @@
 					myCommands.exportPreferences();
 				} else if (args[0] === "importPreferences" || args[0] === "ip") {
 					myCommands.importPreferences(args);
-				} else {
+				} else if (args[0] === "setFontColor" || args[0] === "sfc") {
+					myCommands.setFontColor(args);
+				} else if (args[0] === "setFontFamily" || args[0] === "sff") {
+					myCommands.setFontFamily(args);
+				} else if (args[0] === "setBackgroundColor" || args[0] === "sbc") {
+					myCommands.setBackgroundColor(args);
+				}
+
+				else {
 					eventManagerFactory.publish(EVENTS.STATUS_UPDATE, {
 						message: "No such command",
 						success: false
