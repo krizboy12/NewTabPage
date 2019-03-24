@@ -71,7 +71,21 @@
 			},
 
 			handleCommand: function() {
-				var args = _.split(_.trimStart(myPrivate.currentInput, ":"), " ");
+				var argRegexp = /(?:([^\s"]+)|"([^"]*)")+/g;
+				var argString = _.trimStart(myPrivate.currentInput, ":");
+				var args = [];
+
+				do {
+					var match = argRegexp.exec(argString);
+					if (match) {
+						if (match[1]) {
+							args.push(match[1]);
+						} else if (match[2]) {
+							args.push(match[2]);
+						}
+					}
+				} while (match);
+
 				if (args[0] === "add" || args[0] === "a") {
 					myCommands.addLabelLinkPair(args);
 				} else if (args[0] === "remove" || args[0] === "r") {
