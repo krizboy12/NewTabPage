@@ -71,7 +71,7 @@
 					return {success: false, message: "'" + item + "' is not font adjustable."};
 
 				_.set(myPrivate, "preferences." + item + ".fontFamily", fontFamily);
-				eventManagerFactory.publish(EVENTS[item.toUpperCase() + "FONT_FAMILY_CHANGE"], fontFamily);
+				eventManagerFactory.publish(EVENTS[item.toUpperCase() + "_FONT_FAMILY_CHANGE"], fontFamily);
 				return {success: true, message: "Font family for " + item + " has been changed to " + fontFamily};
 			},
 

@@ -28,7 +28,7 @@ current-input-display .text {
 	padding: 0;
 	line-height: var(--height);
 	color: var(--input-text-color);
-	font-family: "Monaco", "Lucida Console", monospace;
+	font-family: var(--input-font-family);
 	font-size: 1em;
 }
 
@@ -51,10 +51,10 @@ current-input-display .text:not(.prompt) span::after {
   background-color: var(--color);
   content: " ";
   white-space: pre;
-    animation-name: blink;
-    animation-duration: 900ms;
-    animation-iteration-count: infinite;
-    opacity: 1;
+  animation-name: blink;
+  animation-duration: 900ms;
+  animation-iteration-count: infinite;
+  opacity: 1;
 }
 
 @keyframes blink {
