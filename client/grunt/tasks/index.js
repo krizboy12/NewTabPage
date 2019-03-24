@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 
 			indexTplOptions.data.lib = "";
 			[
-				"https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js",
+				"https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js",
 				"https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"
 			].forEach(function(url) {
 				indexTplOptions.data.lib += grunt.template.process(tagTemplates.js, {
