@@ -62,17 +62,12 @@
 				return (ADJUSTABLE.FONT_COLOR.indexOf(item.toLowerCase()) >= 0);
 			},
 
-			isBackgroundColorAdjustable: function(item) {
-				return (ADJUSTABLE.BACKGROUND_COLOR.indexOf(item.toLowerCase() >= 0));
+			isHighlightColorAdjustable: function(item) {
+				return (ADJUSTABLE.HIGHLIGHT_COLOR.indexOf(item.toLowerCase()) >= 0);
 			},
 
-			setFontFamily: function(item, fontFamily) {
-				if(!myPublic.isFontFamilyAdjustable(item))
-					return {success: false, message: "'" + item + "' is not font adjustable."};
-
-				_.set(myPrivate, "preferences." + item + ".fontFamily", fontFamily);
-				eventManagerFactory.publish(EVENTS[item.toUpperCase() + "_FONT_FAMILY_CHANGE"], fontFamily);
-				return {success: true, message: "Font family for " + item + " has been changed to " + fontFamily};
+			isBackgroundColorAdjustable: function(item) {
+				return (ADJUSTABLE.BACKGROUND_COLOR.indexOf(item.toLowerCase() >= 0));
 			},
 
 			setFontColor: function(item, fontColor) {
@@ -84,6 +79,24 @@
 				return {success: true, message: "Font color for " + item + " has been changed to " + fontColor};
 			},
 
+			setHighlightColor: function(item, highlightColor) {
+				if(!myPublic.isHighlightColorAdjustable(item))
+					return {success: false, message: "'" + item + "' is not highlight adjustable."};
+
+				_.set(myPrivate, "preferences." + item + ".highlightColor", highlightColor);
+				eventManagerFactory.publish(EVENTS[item.toUpperCase() + "_HIGHLIGHT_COLOR_CHANGE"], highlightColor);
+				return {success: true, message: "Highlight color for " + item + " has been changed to " + highlightColor};
+			},
+
+			setFontFamily: function(item, fontFamily) {
+				if(!myPublic.isFontFamilyAdjustable(item))
+					return {success: false, message: "'" + item + "' is not font adjustable."};
+
+				_.set(myPrivate, "preferences." + item + ".fontFamily", fontFamily);
+				eventManagerFactory.publish(EVENTS[item.toUpperCase() + "_FONT_FAMILY_CHANGE"], fontFamily);
+				return {success: true, message: "Font family for " + item + " has been changed to " + fontFamily};
+			},
+
 			setBackgroundColor: function(item, backgroundColor) {
 				if(!myPublic.isBackgroundColorAdjustable(item))
 					return {success: false, message: "'" + item + "' is not background-color adjustable."};
@@ -93,12 +106,16 @@
 				return {success: true, message: "Background color for " + item + " has been changed to " + backgroundColor};
 			},
 
-			getFontFamily: function(item) {
-				return _.get(myPrivate, "preferences." + item + ".fontFamily", "monospace");
-			},
-
 			getFontColor: function(item) {
 				return _.get(myPrivate, "preferences." + item + ".fontColor", "#000");
+			},
+
+			getHighlightColor: function(item) {
+				return _.get(myPrivate, "preferences." + item + ".highlightColor", "yellow");
+			},
+
+			getFontFamily: function(item) {
+				return _.get(myPrivate, "preferences." + item + ".fontFamily", "monospace");
 			},
 
 			getBackgroundColor: function(item) {

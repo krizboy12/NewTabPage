@@ -27,17 +27,19 @@
 			eventManagerFactory.subscribe(EVENTS.PROMPT_BACKGROUND_COLOR_CHANGE, function(backgroundColor) {
 				element[0].style.setProperty("--prompt-background-color", backgroundColor);
 			});
-			
+
+			var styles = element[0].style;
+			var pmf = preferencesManagerFactory;
 			// Set input text color from preferences.
-			element[0].style.setProperty("--input-text-color", preferencesManagerFactory.getFontColor("input"));
+			styles.setProperty("--input-text-color", pmf.getFontColor("input"));
 			// Set input text font family from preferences.
-			element[0].style.setProperty("--input-font-family", preferencesManagerFactory.getFontFamily("input"));
+			styles.setProperty("--input-font-family", pmf.getFontFamily("input"));
 			// Set prompt text color from preferences.
-			element[0].style.setProperty("--prompt-color", preferencesManagerFactory.getFontColor("prompt"));
+			styles.setProperty("--prompt-color", pmf.getFontColor("prompt"));
 			// Set the prompt font family from preferences.
-			element[0].style.setProperty("--prompt-font-family", preferencesManagerFactory.getFontFamily("prompt"));
+			styles.setProperty("--prompt-font-family", pmf.getFontFamily("prompt"));
 			// Set the prompt background color from preferences.
-			element[0].style.setProperty("--prompt-background-color", preferencesManagerFactory.getBackgroundColor("prompt"));
+			styles.setProperty("--prompt-background-color", pmf.getBackgroundColor("prompt"));
 		};
 
 		return {

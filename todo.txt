@@ -4,6 +4,7 @@ LAST UPDATED: 03/24/2019
 [~] IN PROGRESS
 [+] COMPLETE
 
-[-] Add support for setting the font family of displayed link labels
-[-] Add support for setting the highlighting color of displayed link labels
-[-] Proper scaling of font families to prevent clipping in input bar 
+[+] Add support for setting the font family of displayed link labels
+[+] Add support for setting the font color of displayed link labels
+[+] Add support for setting the highlighting color of displayed link labels
+[-] Proper scaling of font families to prevent clipping in input bar

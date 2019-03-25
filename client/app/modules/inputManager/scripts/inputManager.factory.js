@@ -30,6 +30,11 @@
 				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, setResponse);
 			},
 
+			setHighlightColor: function(args) {
+				var setResponse = preferencesManagerFactory.setHighlightColor(args[1], args[2]);
+				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, setResponse);
+			},
+
 			setFontFamily: function(args) {
 				var setResponse = preferencesManagerFactory.setFontFamily(args[1], args[2]);
 				eventManagerFactory.publish(EVENTS.STATUS_UPDATE, setResponse);
@@ -103,6 +108,8 @@
 					myCommands.importPreferences(args);
 				} else if (args[0] === "setFontColor" || args[0] === "sfc") {
 					myCommands.setFontColor(args);
+				} else if (args[0] === "setHighlightColor" || args[0] === "shc") {
+					myCommands.setHighlightColor(args);
 				} else if (args[0] === "setFontFamily" || args[0] === "sff") {
 					myCommands.setFontFamily(args);
 				} else if (args[0] === "setBackgroundColor" || args[0] === "sbc") {

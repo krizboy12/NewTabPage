@@ -1,4 +1,9 @@
 label-link-matches {
+	--label-color: #000;
+	--label-highlight-color: yellow;
+	--label-font-family: Times;
+
+
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none; user-select: none;
@@ -6,7 +11,8 @@ label-link-matches {
 
 	text-align: center;
 	display: block;
-	font-family: 'Roboto Mono', monospace;
+	color: var(--label-color);
+	font-family: var(--label-font-family);
 	font-size: 3em;
 }
 
@@ -18,7 +24,7 @@ label-link-matches .match-list {
 }
 
 label-link-matches .highlight {
-	color: cyan;
+	color: var(--label-highlight-color);
 }
 
 label-link-matches a {
