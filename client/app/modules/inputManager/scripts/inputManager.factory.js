@@ -133,7 +133,7 @@
 
 			search: function() {
 				window.location.href = preferencesManagerFactory.getSearchQuery() +
-					_.escape(myPrivate.currentInput);
+					encodeURIComponent(myPrivate.currentInput);
 			},
 
 			findMatch: function() {
